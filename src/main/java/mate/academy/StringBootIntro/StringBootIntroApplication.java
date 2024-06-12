@@ -28,7 +28,7 @@ public class StringBootIntroApplication {
 			Book book = new Book();
 			book.setAuthor("Joanne Rowling");
 			book.setTitle("Harry Potter");
-			book.setDescription("Book about boy");
+			book.setDescription("Book about boy...");
 			book.setCoverImage("image");
 			book.setIsbn("745463");
 			book.setPrice(BigDecimal.valueOf(399));
