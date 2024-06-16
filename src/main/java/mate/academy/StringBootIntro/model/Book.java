@@ -6,12 +6,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
-import lombok.Data;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.math.BigDecimal;
+
 @Entity
-@Table(name = "Books")
-@Data
+@Table(name = "books")
+@Getter
+@Setter
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +28,4 @@ public class Book {
     private BigDecimal price;
     private String description;
     private String coverImage;
-
 }
