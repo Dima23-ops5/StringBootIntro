@@ -33,8 +33,8 @@ public class StringBootIntroApplication {
 			book.setCoverImage("image");
 			book.setIsbn("745463");
 			book.setPrice(BigDecimal.valueOf(399));
-			bookService.save(book);
-			System.out.println(bookService.findAll());
+			//bookService.save(book);
+			//System.out.println(bookService.findAll());
 		};
 	}
 
