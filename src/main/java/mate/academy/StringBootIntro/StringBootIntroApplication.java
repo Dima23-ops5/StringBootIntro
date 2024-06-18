@@ -1,6 +1,5 @@
 package mate.academy.StringBootIntro;
 
-
 import mate.academy.StringBootIntro.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,19 +22,19 @@ public class StringBootIntroApplication {
 		SpringApplication.run(StringBootIntroApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner commandLineRunner() {
-		return args -> {
-			Book book = new Book();
-			book.setAuthor("Joanne Rowling");
-			book.setTitle("Harry Potter");
-			book.setDescription("Book about boy...");
-			book.setCoverImage("image");
-			book.setIsbn("745463");
-			book.setPrice(BigDecimal.valueOf(399));
-			//bookService.save(book);
-			//System.out.println(bookService.findAll());
-		};
-	}
+    @Bean
+    public CommandLineRunner commandLineRunner() {
+    	return args -> {
+    		Book book = new Book();
+    		book.setAuthor("Joanne Rowling");
+    		book.setTitle("Harry Potter");
+    		book.setDescription("Book about boy...");
+    		book.setCoverImage("image");
+    		book.setIsbn("745463");
+    		book.setPrice(BigDecimal.valueOf(399));
+    		//bookService.save(book);
+    		//System.out.println(bookService.findAll());
+    	};
+    }
 
 }

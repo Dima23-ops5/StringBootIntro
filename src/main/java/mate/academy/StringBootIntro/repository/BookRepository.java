@@ -1,10 +1,8 @@
 package mate.academy.StringBootIntro.repository;
 
-import mate.academy.StringBootIntro.dto.BookDto;
-import mate.academy.StringBootIntro.dto.CreateBookRequestDto;
-import mate.academy.StringBootIntro.model.Book;
 import java.util.List;
 import java.util.Optional;
+import mate.academy.StringBootIntro.model.Book;
 
 public interface BookRepository {
     public List<Book> findAll();

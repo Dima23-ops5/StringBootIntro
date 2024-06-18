@@ -1,20 +1,16 @@
 package mate.academy.StringBootIntro.repository.impl;
 
+import java.util.List;
 import jakarta.persistence.criteria.CriteriaQuery;
 import lombok.RequiredArgsConstructor;
-import mate.academy.StringBootIntro.dto.BookDto;
-import mate.academy.StringBootIntro.dto.CreateBookRequestDto;
 import mate.academy.StringBootIntro.exeption.DataProcessingException;
-import mate.academy.StringBootIntro.mapper.BookMapper;
+import java.util.Optional;
 import mate.academy.StringBootIntro.model.Book;
 import mate.academy.StringBootIntro.repository.BookRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor

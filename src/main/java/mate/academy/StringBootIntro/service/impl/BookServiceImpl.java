@@ -1,15 +1,14 @@
 package mate.academy.StringBootIntro.service.impl;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.StringBootIntro.dto.BookDto;
 import mate.academy.StringBootIntro.dto.CreateBookRequestDto;
 import mate.academy.StringBootIntro.mapper.BookMapper;
-import mate.academy.StringBootIntro.model.Book;
 import mate.academy.StringBootIntro.repository.BookRepository;
+import java.util.NoSuchElementException;
 import mate.academy.StringBootIntro.service.BookService;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +34,4 @@ public class BookServiceImpl implements BookService {
         return bookMapper.toDto(bookRepository
                 .save(bookMapper.toModel(bookRequetDto)));
     }
-
 }
