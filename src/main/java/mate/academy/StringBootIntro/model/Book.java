@@ -1,6 +1,5 @@
 package mate.academy.StringBootIntro.model;
 
-import java.math.BigDecimal;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,11 +8,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+import java.math.BigDecimal;
 
 @Entity
-@Table(name = "books")
+@SQLDelete(sql = "UPDATE books SET is_delete = true WHERE id=?")
+@SQLRestriction(value = "is_delete=false")
 @Getter
 @Setter
+@Table(name = "books")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +32,8 @@ public class Book {
     private BigDecimal price;
     private String description;
     private String coverImage;
+    @Column(nullable = false)
+    private boolean is_delete = false;
 
     @Override
     public String toString() {
