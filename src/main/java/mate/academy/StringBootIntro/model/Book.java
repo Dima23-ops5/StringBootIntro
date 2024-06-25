@@ -12,12 +12,12 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import java.math.BigDecimal;
 
-@Entity
-@SQLDelete(sql = "UPDATE books SET is_delete = true WHERE id=?")
-@SQLRestriction(value = "is_delete=false")
 @Getter
 @Setter
+@Entity
 @Table(name = "books")
+@SQLDelete(sql = "UPDATE books SET isDeleted = true WHERE id=?")
+@SQLRestriction(value = "isDeleted=false")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,20 +31,8 @@ public class Book {
     @Column(nullable = false)
     private BigDecimal price;
     private String description;
+    @Column(name = "cover_image")
     private String coverImage;
-    @Column(nullable = false)
-    private boolean is_delete = false;
-
-    @Override
-    public String toString() {
-        return "Book {"
-                + "id=" + id
-                + ", title=" + title
-                + ", author=" + author
-                + ", isbn=" + isbn
-                + ", price=" + price
-                + ", description=" + description
-                + ", coverImage=" + coverImage
-                + "}";
-    }
+    @Column(nullable = false, name = "is_deleted", columnDefinition = "TINYINT(1)")
+    private Boolean isDeleted = false;
 }

@@ -2,7 +2,8 @@ package mate.academy.StringBootIntro.service.impl;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import mate.academy.StringBootIntro.dto.BookDto;
 import mate.academy.StringBootIntro.dto.CreateBookRequestDto;
 import mate.academy.StringBootIntro.mapper.BookMapper;
@@ -11,8 +12,8 @@ import mate.academy.StringBootIntro.repository.BookRepository;
 import mate.academy.StringBootIntro.service.BookService;
 import org.springframework.stereotype.Service;
 
+@AllArgsConstructor
 @Service
-@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
@@ -26,8 +27,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto getBookById(Long id) {
-        return bookMapper.toDto(bookRepository
-                .getById(id));
+        return bookMapper.toDto(bookRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new));
     }
 
     @Override
@@ -39,18 +40,17 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto updateBookById(Long id, CreateBookRequestDto createBookRequestDto) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Cannot find user with id: "
-                        + id));
-        return bookMapper.toDto(bookRepository.save(book));
+                .orElseThrow(EntityNotFoundException::new);
+        bookMapper.updateBookFromDto(book, createBookRequestDto);
+        return bookMapper.toDto(book);
     }
 
     @Override
-    public BookDto deleteBookById(Long id) {
+    public void deleteBookById(Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Cannot find book with id: "
                         + id));
-        book.set_delete(true);
-        return bookMapper.toDto(bookRepository.save(book));
+        book.setIsDeleted(true);
     }
 
 }

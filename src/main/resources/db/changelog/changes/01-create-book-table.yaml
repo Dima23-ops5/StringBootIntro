@@ -31,18 +31,17 @@ databaseChangeLog:
                     unique: true
               - column:
                   name: price
-                  type: bigint
+                  type: decimal
                   constraints:
                     nullable: false
               - column:
                   name: description
                   type: varchar(255)
               - column:
-                  name: coverImage
+                  name: cover_image
                   type: varchar(255)
               - column:
-                  name: is_delete
-                  type: boolean
-                  defaultValueBoolean: false
+                  name: is_deleted
+                  type: tinyint
                   constraints:
                     nullable: false
