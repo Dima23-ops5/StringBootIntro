@@ -12,5 +12,4 @@ public interface BookMapper {
     BookDto toDto(Book book);
 
     Book toModel(CreateBookRequestDto requestDto);
-    void updateBookFromDto(@MappingTarget Book book, CreateBookRequestDto createBookRequestDto);
-}
+   }
