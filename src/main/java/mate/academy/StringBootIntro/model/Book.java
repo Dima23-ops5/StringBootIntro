@@ -16,8 +16,8 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 @Table(name = "books")
-@SQLDelete(sql = "UPDATE books SET isDeleted = true WHERE id=?")
-@SQLRestriction(value = "isDeleted=false")
+@SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id=?")
+@SQLRestriction(value = "is_deleted=false")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

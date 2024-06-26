@@ -46,7 +46,7 @@ public class BookServiceImpl implements BookService {
        book.setIsbn(createBookRequestDto.getIsbn());
        book.setTitle(createBookRequestDto.getTitle());
        book.setAuthor(createBookRequestDto.getAuthor());
-        return bookMapper.toDto(book);
+        return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override
