@@ -4,6 +4,7 @@ import java.util.List;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mate.academy.StringBootIntro.dto.BookDto;
+import mate.academy.StringBootIntro.dto.BookSearchParametersDto;
 import mate.academy.StringBootIntro.dto.CreateBookRequestDto;
 import mate.academy.StringBootIntro.service.BookService;
 import org.springframework.http.HttpStatus;
@@ -42,4 +43,8 @@ public class BookController {
         bookService.deleteBookById(id);
     }
 
+    @GetMapping("/search")
+    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
+     return bookService.search(searchParameters);
+    }
 }
