@@ -32,7 +32,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto getBookById(Long id) {
         return bookMapper.toDto(bookRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new));
+                .orElseThrow(() ->
+                        new NoSuchElementException("Cannot find book with id: " + id)));
     }
 
     @Override
@@ -44,21 +45,15 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto updateBookById(Long id, CreateBookRequestDto createBookRequestDto) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
-       book.setPrice(createBookRequestDto.getPrice());
-       book.setCoverImage(createBookRequestDto.getCoverImage());
-       book.setIsbn(createBookRequestDto.getIsbn());
-       book.setTitle(createBookRequestDto.getTitle());
-       book.setAuthor(createBookRequestDto.getAuthor());
+                .orElseThrow(() ->
+                        new NoSuchElementException("Cannot find book with id: " + id));
+        bookMapper.updateBookFromDto(createBookRequestDto, book);
         return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override
     public void deleteBookById(Long id) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Cannot find book with id: "
-                        + id));
-        book.setIsDeleted(true);
+        bookRepository.deleteById(id);
     }
 
     @Override

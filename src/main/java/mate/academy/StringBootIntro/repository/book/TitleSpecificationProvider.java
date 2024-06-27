@@ -6,9 +6,10 @@ import mate.academy.StringBootIntro.repository.SpecificationProvider;
 import org.springframework.data.jpa.domain.Specification;
 
 public class TitleSpecificationProvider implements SpecificationProvider<Book> {
+    private static final String TITLE = "title";
     @Override
     public String getKey() {
-        return "title";
+        return TITLE;
     }
 
     @Override
