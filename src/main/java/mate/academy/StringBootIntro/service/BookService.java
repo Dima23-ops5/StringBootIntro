@@ -4,9 +4,10 @@ import java.util.List;
 import mate.academy.StringBootIntro.dto.BookDto;
 import mate.academy.StringBootIntro.dto.BookSearchParametersDto;
 import mate.academy.StringBootIntro.dto.CreateBookRequestDto;
+import org.springframework.data.domain.Pageable;
 
 public interface BookService {
-    List<BookDto> findAll();
+    List<BookDto> findAll(Pageable pageable);
 
     BookDto getBookById(Long id);
 
