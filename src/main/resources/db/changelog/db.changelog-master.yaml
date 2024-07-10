@@ -3,3 +3,9 @@ databaseChangeLog:
       file: classpath:/db/changelog/changes/01-create-book-table.yaml
   - include:
       file: classpath:/db/changelog/changes/02-create-user-table.yaml
+  - include:
+      file: classpath:/db/changelog/changes/03-create-role-table.yaml
+  - include:
+      file: classpath:/db/changelog/changes/04-create-usersAndRoles-table.yaml
+  - include:
+      file: classpath:/db/changelog/changes/05-add-roles.yaml
