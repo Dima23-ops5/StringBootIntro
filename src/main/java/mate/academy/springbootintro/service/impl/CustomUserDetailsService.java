@@ -1,6 +1,6 @@
 package mate.academy.springbootintro.service.impl;
 
-import java.util.NoSuchElementException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springbootintro.repository.user.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +17,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
                 .orElseThrow(
-                        () -> new NoSuchElementException(
+                        () -> new EntityNotFoundException(
                                 "Cannot find user with email:" + email
                         )
                 );

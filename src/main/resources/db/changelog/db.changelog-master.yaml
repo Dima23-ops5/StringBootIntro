@@ -9,3 +9,6 @@ databaseChangeLog:
       file: classpath:/db/changelog/changes/04-create-usersAndRoles-table.yaml
   - include:
       file: classpath:/db/changelog/changes/05-add-roles.yaml
+  - include:
+      file: classpath:/db/changelog/changes/06-add-table-is-delete-to-users.yaml
+
