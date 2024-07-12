@@ -31,7 +31,7 @@ databaseChangeLog:
                   value: user1@gmail.com
               - column:
                   name: password
-                  value: a4e4570c263dbfe7e7b01c451f5121f025c7bba885bb3c373ba4a578b4a7dca4
+                  value: Pas1_12345
               - column:
                   name: first_name
                   value: User1
@@ -52,7 +52,7 @@ databaseChangeLog:
                   value: user2@gmail.com
               - column:
                   name: password
-                  value: 3572d6025a6a37430c17cbd8356d53a3a1d394ded158811d973018f4b2d15f3b
+                  value: Pas2_12345
               - column:
                   name: first_name
                   value: User2
