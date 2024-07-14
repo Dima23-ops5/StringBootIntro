@@ -5,13 +5,12 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
@@ -23,6 +22,7 @@ public class JwtUtil {
     public JwtUtil(@Value("${jws.secret}") String secret) {
         this.secret = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
+
     public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)

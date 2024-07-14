@@ -1,12 +1,13 @@
 package mate.academy.springbootintro.security;
 
-import java.io.IOException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springbootintro.service.impl.CustomUserDetailsService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,9 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private static final String AUTHORIZATION = "Authorization";
-    private static final String BEARER = "Bearer";
-    private static final int DEFAULT_CAPACITY = 7;
+    private static final String TOKEN_HEADER = "Bearer ";
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
 
@@ -41,13 +40,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
         }
-       filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response);
     }
 
     private String getToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION);
-        if (bearerToken != null && bearerToken.startsWith(BEARER)) {
-            return bearerToken.substring(DEFAULT_CAPACITY);
+        String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (bearerToken != null && bearerToken.startsWith(TOKEN_HEADER)) {
+            return bearerToken.substring(TOKEN_HEADER.length());
         }
         return null;
     }
