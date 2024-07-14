@@ -19,7 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String AUTHORIZATION = "Authorization";
     private static final String BEARER = "Bearer";
-    private static final Integer DEFAULT_CAPACITY = 7;
+    private static final int DEFAULT_CAPACITY = 7;
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
 
