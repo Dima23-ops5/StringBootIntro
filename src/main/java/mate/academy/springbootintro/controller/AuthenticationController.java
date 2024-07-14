@@ -10,7 +10,7 @@ import mate.academy.springbootintro.dto.userdto.UserRegistrationRequestDto;
 import mate.academy.springbootintro.dto.userdto.UserResponseDto;
 import mate.academy.springbootintro.exeption.RegistrationException;
 import mate.academy.springbootintro.security.AuthenticationService;
-import mate.academy.springbootintro.service.UserService;
+import mate.academy.springbootintro.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;

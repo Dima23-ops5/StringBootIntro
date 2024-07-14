@@ -1,4 +1,4 @@
-package mate.academy.springbootintro.service;
+package mate.academy.springbootintro.service.user;
 
 import mate.academy.springbootintro.dto.userdto.UserRegistrationRequestDto;
 import mate.academy.springbootintro.dto.userdto.UserResponseDto;

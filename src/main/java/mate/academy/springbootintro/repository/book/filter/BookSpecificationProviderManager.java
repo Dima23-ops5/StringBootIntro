@@ -1,4 +1,4 @@
-package mate.academy.springbootintro.repository.book;
+package mate.academy.springbootintro.repository.book.filter;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

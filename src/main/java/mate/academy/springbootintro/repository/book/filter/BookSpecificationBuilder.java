@@ -1,4 +1,4 @@
-package mate.academy.springbootintro.repository.book;
+package mate.academy.springbootintro.repository.book.filter;
 
 import lombok.RequiredArgsConstructor;
 import mate.academy.springbootintro.dto.bookdto.BookSearchParametersDto;

@@ -1,11 +1,11 @@
-package mate.academy.springbootintro.service.impl;
+package mate.academy.springbootintro.service.user.impl;
 
 import lombok.AllArgsConstructor;
 import mate.academy.springbootintro.dto.userdto.UserRegistrationRequestDto;
 import mate.academy.springbootintro.dto.userdto.UserResponseDto;
 import mate.academy.springbootintro.mapper.UserMapper;
 import mate.academy.springbootintro.repository.user.UserRepository;
-import mate.academy.springbootintro.service.UserService;
+import mate.academy.springbootintro.service.user.UserService;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor

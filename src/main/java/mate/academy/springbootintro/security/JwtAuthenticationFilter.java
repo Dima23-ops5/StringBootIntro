@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
-import mate.academy.springbootintro.service.impl.CustomUserDetailsService;
+import mate.academy.springbootintro.service.user.impl.CustomUserDetailsService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String AUTHORIZATION = "Authorization";
     private static final String BEARER = "Bearer";
-    private static final int DEFAULT_CAPACITY = 7;
+    private static final Integer DEFAULT_CAPACITY = 7;
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
 

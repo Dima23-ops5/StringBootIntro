@@ -1,16 +1,17 @@
-package mate.academy.springbootintro.service.impl;
+package mate.academy.springbootintro.service.book.impl;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import lombok.AllArgsConstructor;
 import mate.academy.springbootintro.dto.bookdto.BookDto;
+import mate.academy.springbootintro.dto.bookdto.BookDtoWithoutCategoryIds;
 import mate.academy.springbootintro.dto.bookdto.BookSearchParametersDto;
 import mate.academy.springbootintro.dto.bookdto.CreateBookRequestDto;
 import mate.academy.springbootintro.mapper.BookMapper;
 import mate.academy.springbootintro.model.Book;
 import mate.academy.springbootintro.repository.book.BookRepository;
-import mate.academy.springbootintro.repository.book.BookSpecificationBuilder;
-import mate.academy.springbootintro.service.BookService;
+import mate.academy.springbootintro.repository.book.filter.BookSpecificationBuilder;
+import mate.academy.springbootintro.service.book.BookService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,13 @@ public class BookServiceImpl implements BookService {
         Specification<Book> built = bookSpecificationBuilder.built(searchParameters);
         return bookRepository.findAll(built).stream()
                 .map(bookMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long id) {
+        return bookRepository.getBooksByCategoryId(id).stream()
+                .map(bookMapper::toDtoWithoutCategories)
                 .toList();
     }
 

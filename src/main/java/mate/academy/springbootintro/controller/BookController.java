@@ -10,7 +10,7 @@ import mate.academy.springbootintro.dto.bookdto.BookDto;
 import mate.academy.springbootintro.dto.bookdto.BookSearchParametersDto;
 import mate.academy.springbootintro.dto.bookdto.CreateBookRequestDto;
 import mate.academy.springbootintro.model.Book;
-import mate.academy.springbootintro.service.BookService;
+import mate.academy.springbootintro.service.book.BookService;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
 import org.springdoc.core.annotations.ParameterObject;

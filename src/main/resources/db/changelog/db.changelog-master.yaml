@@ -11,4 +11,7 @@ databaseChangeLog:
       file: classpath:/db/changelog/changes/05-add-roles.yaml
   - include:
       file: classpath:/db/changelog/changes/06-add-table-is-delete-to-users.yaml
-
+  - include:
+      file: classpath:/db/changelog/changes/07-create-category-table.yaml
+  - include:
+      file: classpath:/db/changelog/changes/08-create-book-category-table.yaml
