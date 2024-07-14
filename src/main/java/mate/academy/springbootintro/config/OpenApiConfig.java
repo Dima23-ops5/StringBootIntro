@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiConfig {
+    private static final String BEARERAUTH = "BearerAuth";
     private static final String BEARER = "bearer";
     private static final String JWT = "JWT";
-    private static final String BEARERAUTH = "BearerAuth";
 
     @Bean
     public OpenAPI customOpenApi() {
