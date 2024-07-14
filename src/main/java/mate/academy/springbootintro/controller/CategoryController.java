@@ -90,6 +90,6 @@ public class CategoryController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}/books")
     public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long id) {
-        return null;
+        return bookService.getBooksByCategoryId(id);
     }
 }

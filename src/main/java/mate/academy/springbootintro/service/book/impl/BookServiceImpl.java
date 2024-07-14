@@ -71,5 +71,4 @@ public class BookServiceImpl implements BookService {
                 .map(bookMapper::toDtoWithoutCategories)
                 .toList();
     }
-
 }
