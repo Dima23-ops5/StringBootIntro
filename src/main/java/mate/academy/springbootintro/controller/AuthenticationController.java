@@ -40,7 +40,8 @@ public class AuthenticationController {
     @PostMapping("/login")
     @Operation(
             summary = "Login users",
-            description = "Login users that had been already registered")
+            description = "Login users that had been already registered"
+    )
     public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto request) {
         return authenticationService.authenticate(request);
     }
