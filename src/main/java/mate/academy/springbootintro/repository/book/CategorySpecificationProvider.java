@@ -5,17 +5,17 @@ import mate.academy.springbootintro.model.Book;
 import mate.academy.springbootintro.repository.SpecificationProvider;
 import org.springframework.data.jpa.domain.Specification;
 
-public class IsbnSpecificationProvider implements SpecificationProvider<Book> {
-    private static final String ISBN = "isbn";
+public class CategorySpecificationProvider implements SpecificationProvider<Book> {
+    private static final String CATEGORY = "category";
 
     @Override
     public String getKey() {
-        return ISBN;
+        return CATEGORY;
     }
 
     @Override
     public Specification<Book> getSpecification(String[] params) {
         return (root, query, criteriaBuilder) ->
-                root.get(ISBN).in(Arrays.stream(params).toArray());
+                root.get(CATEGORY).in(Arrays.stream(params).toArray());
     }
 }

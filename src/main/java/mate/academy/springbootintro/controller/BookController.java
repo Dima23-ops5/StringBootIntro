@@ -9,7 +9,10 @@ import lombok.RequiredArgsConstructor;
 import mate.academy.springbootintro.dto.bookdto.BookDto;
 import mate.academy.springbootintro.dto.bookdto.BookSearchParametersDto;
 import mate.academy.springbootintro.dto.bookdto.CreateBookRequestDto;
+import mate.academy.springbootintro.model.Book;
 import mate.academy.springbootintro.service.BookService;
+import org.mapstruct.AfterMapping;
+import org.mapstruct.MappingTarget;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -82,5 +85,9 @@ public class BookController {
                     direction = Sort.Direction.ASC
             ) Pageable pageable) {
         return bookService.search(searchParameters);
+    }
+
+    @AfterMapping
+    void setCategoryIds(@MappingTarget BookDto bookDto, Book book) {
     }
 }

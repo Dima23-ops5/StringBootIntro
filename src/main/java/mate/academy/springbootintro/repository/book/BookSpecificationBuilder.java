@@ -10,32 +10,43 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class BookSpecificationBuilder implements SpecificationBuilder<Book> {
-    private BookSpecificationProviderManager bookSpecificationProviderManager;
+    private static final String Author = "author";
+    private static final String TITLE = "title";
+    private static final String ISBN = "isbn";
+    private static final String CATEGORY = "category";
+    private final BookSpecificationProviderManager bookSpecificationProviderManager;
 
     @Override
-    public Specification<Book> built(BookSearchParametersDto phoneSearchParameters) {
+    public Specification<Book> built(BookSearchParametersDto bookSearchParameters) {
         Specification<Book> specification = Specification.where(null);
-        if (phoneSearchParameters.authors() != null && phoneSearchParameters.authors().length > 0) {
+        if (bookSearchParameters.authors() != null && bookSearchParameters.authors().length > 0) {
             specification = specification.and(
                     bookSpecificationProviderManager
-                            .getSpecificationProvider("author")
-                            .getSpecification(phoneSearchParameters.authors())
+                            .getSpecificationProvider(Author)
+                            .getSpecification(bookSearchParameters.authors())
             );
         }
-        if (phoneSearchParameters.titles() != null
-                && phoneSearchParameters.titles().length > 0
+        if (bookSearchParameters.titles() != null
+                && bookSearchParameters.titles().length > 0
         ) {
             specification = specification.and(
                     bookSpecificationProviderManager
-                            .getSpecificationProvider("title")
-                            .getSpecification(phoneSearchParameters.titles())
+                            .getSpecificationProvider(TITLE)
+                            .getSpecification(bookSearchParameters.titles())
             );
         }
-        if (phoneSearchParameters.isbns() != null && phoneSearchParameters.isbns().length > 0) {
+        if (bookSearchParameters.isbn() != null && bookSearchParameters.isbn().length > 0) {
             specification = specification.and(
                     bookSpecificationProviderManager
-                            .getSpecificationProvider("isbn")
-                            .getSpecification(phoneSearchParameters.isbns())
+                            .getSpecificationProvider(ISBN)
+                            .getSpecification(bookSearchParameters.isbn())
+            );
+        }
+        if (bookSearchParameters.categories() != null
+                && bookSearchParameters.categories().length > 0) {
+            specification = specification.and(
+              bookSpecificationProviderManager.getSpecificationProvider(CATEGORY)
+                      .getSpecification(bookSearchParameters.categories())
             );
         }
         return specification;

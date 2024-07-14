@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
@@ -34,4 +36,5 @@ public class Book {
     private String coverImage;
     @Column(nullable = false, name = "is_deleted", columnDefinition = "TINYINT(1)")
     private Boolean isDeleted = false;
+    private Set<Category> categories = new HashSet<>();
 }
