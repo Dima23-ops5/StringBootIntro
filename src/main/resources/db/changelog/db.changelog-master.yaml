@@ -15,3 +15,7 @@ databaseChangeLog:
       file: classpath:/db/changelog/changes/07-create-category-table.yaml
   - include:
       file: classpath:/db/changelog/changes/08-create-book-category-table.yaml
+  - include:
+      file: classpath:/db/changelog/changes/09-create-cart-items-table.yaml
+  - include:
+      file: classpath:/db/changelog/changes/10-create-shopping-cart-table.yaml

@@ -4,9 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.List;
 import lombok.Data;
-import mate.academy.springbootintro.model.Category;
 
 @Data
 public class CreateBookRequestDto {
@@ -23,5 +22,5 @@ public class CreateBookRequestDto {
     @NotBlank(message = "Cover image can`t be null")
     private String coverImage;
     @NotEmpty
-    private Set<Category> categories;
+    private List<Long> categoryIds;
 }
