@@ -37,8 +37,8 @@ public class ShoppingCartController {
             summary = "Get shopping cart",
             description = "Getting shopping cart for current user"
     )
-    public ShoppingCardDto getShoppingCard() {
-        return shoppingCartService.findShoppingCardByUserId(getCurrentUserId());
+    public ShoppingCardDto getShoppingCard(Authentication authentication) {
+        return shoppingCartService.findShoppingCardByUserId(getCurrentUserId(authentication));
     }
 
     @PostMapping
@@ -48,9 +48,13 @@ public class ShoppingCartController {
             description = "Adding item carts to users shopping cart"
     )
     public ShoppingCardDto addItemToCart(
-            @RequestBody @Valid CreateCartItemRequestDto cartItemRequestDto
+            @RequestBody @Valid CreateCartItemRequestDto cartItemRequestDto,
+            Authentication authentication
     ) {
-        return shoppingCartService.addCartItem(cartItemRequestDto, getCurrentUserId());
+        return shoppingCartService.addCartItem(
+                cartItemRequestDto,
+                getCurrentUserId(authentication)
+        );
     }
 
     @PutMapping(value = "/items/{cartItemId}")
@@ -61,12 +65,13 @@ public class ShoppingCartController {
     )
     public ShoppingCardDto updateQuantity(
             @PathVariable @Positive Long cartItemId,
-            @RequestBody @Valid UpdateCartItemRequestDto updateCartItemRequestDto
+            @RequestBody @Valid UpdateCartItemRequestDto updateCartItemRequestDto,
+            Authentication authentication
     ) {
         return shoppingCartService.updateQuantityInCartItem(
                 cartItemId,
                 updateCartItemRequestDto,
-                getCurrentUserId()
+                getCurrentUserId(authentication)
         );
     }
 
@@ -74,12 +79,12 @@ public class ShoppingCartController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize(value = "hasRole('USER')")
     @Operation(summary = "Delete item cart", description = "Deleting item carts in shopping cart")
-    public void deleteItemCart(Long cartItemId) {
-        shoppingCartService.deleteCartItem(cartItemId);
+    public void deleteItemCart(Long cartItemId, Authentication authentication) {
+        shoppingCartService.deleteCartItem(cartItemId, getCurrentUserId(authentication));
     }
 
-    private Long getCurrentUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    private Long getCurrentUserId(Authentication authentication) {
+        authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         return user.getId();
     }

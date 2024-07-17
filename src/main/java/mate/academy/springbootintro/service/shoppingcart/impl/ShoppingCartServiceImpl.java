@@ -89,41 +89,42 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public ShoppingCardDto updateQuantityInCartItem(
             Long cartItemId,
             UpdateCartItemRequestDto updateCartItemRequestDto,
-            Long currentUserId) {
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(
-                currentUserId
+            Long userId) {
+        ShoppingCart cart = shoppingCartRepository.findByUserId(
+                userId
         ).orElseThrow(
                 () -> new EntityNotFoundException(
                         "Cannot found shopping card with user id: "
-                                + currentUserId
+                                + userId
                 )
         );
-        CartItem cartItem = cartItemRepository.findById(
-                cartItemId
-        ).orElseThrow(
-                () -> new EntityNotFoundException(
-                        "Cannot found cart item with id: "
-                                + cartItemId
-                )
-        );
-        shoppingCart.getCartItems().remove(cartItem);
-        cartItem.setQuantity(updateCartItemRequestDto.quantity());
+        CartItem cartItem = cartItemRepository.findByIdAndShoppingCartId(cartItemId, cart.getId())
+                .map(item -> {
+                    item.setQuantity(updateCartItemRequestDto.quantity());
+                    return item;
+                }).orElseThrow(() -> new EntityNotFoundException(
+                        String.format("No cart item with id: %d for user: %d", cartItemId, userId)
+                ));
         cartItemRepository.save(cartItem);
-        shoppingCart.getCartItems().add(cartItem);
-
-        return shoppingCardMapper.toDto(shoppingCartRepository.save(shoppingCart));
+        return shoppingCardMapper.toDto(cart);
     }
 
     @Override
-    public void deleteCartItem(Long cartItemId) {
-        CartItem cartItem = cartItemRepository.findById(
-                cartItemId
+    public void deleteCartItem(Long cartItemId, Long userId) {
+        ShoppingCart cart = shoppingCartRepository.findByUserId(
+                userId
         ).orElseThrow(
                 () -> new EntityNotFoundException(
-                        "Cannot find cart item with id: "
-                                + cartItemId
+                        "Cannot found shopping card with user id: "
+                                + userId
                 )
         );
+        CartItem cartItem = cartItemRepository.findByIdAndShoppingCartId(cartItemId, userId)
+                .orElseThrow(
+                        () -> new EntityNotFoundException(
+                                "Cannot found item cart with id: " + cartItemId + " and user id:" + userId
+                        )
+                );
 
         cartItemRepository.delete(cartItem);
     }
