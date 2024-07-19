@@ -40,7 +40,7 @@ public class BookController {
 
     @GetMapping
     @Operation(summary = "Get books", description = "Get all books")
-    @PreAuthorize(value = "hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     public List<BookDto> getAll(
             @ParameterObject @PageableDefault(
                     size = 20, sort = "title",

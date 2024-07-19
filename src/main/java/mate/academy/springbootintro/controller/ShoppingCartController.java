@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springbootintro.dto.cartitem.CreateCartItemRequestDto;
 import mate.academy.springbootintro.dto.cartitem.UpdateCartItemRequestDto;
-import mate.academy.springbootintro.dto.shoppingcartdto.ShoppingCardDto;
+import mate.academy.springbootintro.dto.shoppingcartdto.ShoppingCartDto;
 import mate.academy.springbootintro.model.User;
 import mate.academy.springbootintro.service.shoppingcart.ShoppingCartService;
 import org.springframework.http.HttpStatus;
@@ -37,7 +37,7 @@ public class ShoppingCartController {
             summary = "Get shopping cart",
             description = "Getting shopping cart for current user"
     )
-    public ShoppingCardDto getShoppingCard(Authentication authentication) {
+    public ShoppingCartDto getShoppingCard(Authentication authentication) {
         return shoppingCartService.findShoppingCardByUserId(getCurrentUserId(authentication));
     }
 
@@ -47,7 +47,7 @@ public class ShoppingCartController {
             summary = "Add item carts to shopping cart",
             description = "Adding item carts to users shopping cart"
     )
-    public ShoppingCardDto addItemToCart(
+    public ShoppingCartDto addItemToCart(
             @RequestBody @Valid CreateCartItemRequestDto cartItemRequestDto,
             Authentication authentication
     ) {
@@ -63,7 +63,7 @@ public class ShoppingCartController {
             summary = "Update quantity",
             description = "Updating products quantity in item carts"
     )
-    public ShoppingCardDto updateQuantity(
+    public ShoppingCartDto updateQuantity(
             @PathVariable @Positive Long cartItemId,
             @RequestBody @Valid UpdateCartItemRequestDto updateCartItemRequestDto,
             Authentication authentication
