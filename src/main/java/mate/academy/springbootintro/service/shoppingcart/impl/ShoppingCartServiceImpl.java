@@ -29,13 +29,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     @Transactional
     public ShoppingCartDto findShoppingCardByUserId(Long id) {
-        return shoppingCardMapper.toDto(shoppingCartRepository.findByUserId(id)
-                        .orElseThrow(() -> new EntityNotFoundException(
-                                        String.format(
-                                                "Cannot find shopping cart by user with id: %d", id
-                                        )
-                                ))
-        );
+        return shoppingCardMapper.toDto(shoppingCartRepository.findByUserId(id));
     }
 
     @Override
@@ -44,11 +38,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             CreateCartItemRequestDto cartItemRequestDto,
             Long currentUserId
     ) {
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(currentUserId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Cannot found shopping card with user id: %d", currentUserId)
-                )
-        );
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(currentUserId);
         Book book = bookRepository.findById(cartItemRequestDto.bookId())
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Cannot found book with id: %d", cartItemRequestDto.bookId())
@@ -69,14 +59,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             Long cartItemId,
             UpdateCartItemRequestDto updateCartItemRequestDto,
             Long userId) {
-        ShoppingCart cart = shoppingCartRepository.findByUserId(
-                userId
-        ).orElseThrow(
-                () -> new EntityNotFoundException(
-                        "Cannot found shopping card with user id: "
-                                + userId
-                )
-        );
+        ShoppingCart cart = shoppingCartRepository.findByUserId(userId);
         CartItem cartItem = cartItemRepository.findByIdAndShoppingCartId(cartItemId, cart.getId())
                 .map(item -> {
                     item.setQuantity(updateCartItemRequestDto.quantity());
@@ -90,13 +73,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void deleteCartItem(Long cartItemId, Long userId) {
-        ShoppingCart cart = shoppingCartRepository.findByUserId(
-                userId
-        ).orElseThrow(
-                () -> new EntityNotFoundException(
-                        String.format("Cannot found shopping card with user id: %d ", userId
-                ))
-        );
+        ShoppingCart cart = shoppingCartRepository.findByUserId(userId);
         CartItem cartItem = cartItemRepository.findByIdAndShoppingCartId(cartItemId, userId)
                 .orElseThrow(
                         () -> new EntityNotFoundException(
