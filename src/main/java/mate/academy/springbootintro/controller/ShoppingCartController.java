@@ -7,13 +7,13 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springbootintro.dto.cartitem.CreateCartItemRequestDto;
 import mate.academy.springbootintro.dto.cartitem.UpdateCartItemRequestDto;
-import mate.academy.springbootintro.dto.shoppingcartdto.ShoppingCardDto;
+import mate.academy.springbootintro.dto.shoppingcartdto.ShoppingCartDto;
 import mate.academy.springbootintro.model.User;
 import mate.academy.springbootintro.service.shoppingcart.ShoppingCartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Validated
 @RequestMapping(value = "/cart")
 @RequiredArgsConstructor
 @Tag(name = "Shopping cart management", description = "Endpoints for managing shopping carts")
@@ -37,7 +38,7 @@ public class ShoppingCartController {
             summary = "Get shopping cart",
             description = "Getting shopping cart for current user"
     )
-    public ShoppingCardDto getShoppingCard(Authentication authentication) {
+    public ShoppingCartDto getShoppingCard(Authentication authentication) {
         return shoppingCartService.findShoppingCardByUserId(getCurrentUserId(authentication));
     }
 
@@ -47,7 +48,7 @@ public class ShoppingCartController {
             summary = "Add item carts to shopping cart",
             description = "Adding item carts to users shopping cart"
     )
-    public ShoppingCardDto addItemToCart(
+    public ShoppingCartDto addItemToCart(
             @RequestBody @Valid CreateCartItemRequestDto cartItemRequestDto,
             Authentication authentication
     ) {
@@ -63,7 +64,7 @@ public class ShoppingCartController {
             summary = "Update quantity",
             description = "Updating products quantity in item carts"
     )
-    public ShoppingCardDto updateQuantity(
+    public ShoppingCartDto updateQuantity(
             @PathVariable @Positive Long cartItemId,
             @RequestBody @Valid UpdateCartItemRequestDto updateCartItemRequestDto,
             Authentication authentication
@@ -84,7 +85,6 @@ public class ShoppingCartController {
     }
 
     private Long getCurrentUserId(Authentication authentication) {
-        authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         return user.getId();
     }

@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.EqualsAndHashCode;
@@ -34,8 +35,13 @@ public class ShoppingCart {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    @OneToMany(mappedBy = "shoppingCart")
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItem> cartItems = new HashSet<>();
     @Column(nullable = false, name = "is_deleted", columnDefinition = "TINYINT(1)")
     private final boolean isDeleted = false;
+
+    public void addCartItem(CartItem cartItem) {
+        cartItem.setShoppingCart(this);
+        cartItems.add(cartItem);
+    }
 }
