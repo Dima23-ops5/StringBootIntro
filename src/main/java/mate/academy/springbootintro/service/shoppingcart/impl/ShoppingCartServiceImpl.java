@@ -122,7 +122,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         CartItem cartItem = cartItemRepository.findByIdAndShoppingCartId(cartItemId, userId)
                 .orElseThrow(
                         () -> new EntityNotFoundException(
-                                "Cannot found item cart with id: " + cartItemId + " and user id:" + userId
+                                String.format(
+                                "Cannot found item cart with id: %d and user id: %d",
+                                        cartItemId, userId
+                                )
                         )
                 );
 
