@@ -80,7 +80,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                                 String.format(
                                         "Cannot found item cart with id: %d and user id: %d",
                                         cartItemId, userId
-                        ))
+                                ))
                 );
 
         cartItemRepository.delete(cartItem);
