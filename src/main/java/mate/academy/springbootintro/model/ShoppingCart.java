@@ -40,7 +40,7 @@ public class ShoppingCart {
     @Column(nullable = false, name = "is_deleted", columnDefinition = "TINYINT(1)")
     private final boolean isDeleted = false;
 
-    public void addCartItem(CartItem cartItem) {
+    public void addCartItemToCart(CartItem cartItem) {
         cartItem.setShoppingCart(this);
         cartItems.add(cartItem);
     }

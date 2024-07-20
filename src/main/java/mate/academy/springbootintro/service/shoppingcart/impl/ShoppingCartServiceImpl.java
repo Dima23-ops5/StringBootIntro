@@ -92,6 +92,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                                    Book book, ShoppingCart shoppingCart) {
         CartItem cartItem = cartItemMapper.toCartItem(cartItemRequestDto);
         cartItem.setBook(book);
-        shoppingCart.addCartItem(cartItem);
+        shoppingCart.addCartItemToCart(cartItem);
     }
 }
