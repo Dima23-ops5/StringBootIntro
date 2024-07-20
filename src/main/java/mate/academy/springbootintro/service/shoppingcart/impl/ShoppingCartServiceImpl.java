@@ -23,13 +23,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final BookRepository bookRepository;
     private final CartItemRepository cartItemRepository;
-    private final ShoppingCartMapper shoppingCardMapper;
+    private final ShoppingCartMapper shoppingCartMapper;
     private final CartItemMapper cartItemMapper;
 
     @Override
     @Transactional
     public ShoppingCartDto findShoppingCardByUserId(Long id) {
-        return shoppingCardMapper.toDto(shoppingCartRepository.findByUserId(id));
+        return shoppingCartMapper.toDto(shoppingCartRepository.findByUserId(id));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 .ifPresentOrElse(cartItem -> cartItem.setQuantity(cartItem.getQuantity()
                         + cartItemRequestDto.quantity()),
                         () -> addCartItemToCard(cartItemRequestDto, book, shoppingCart));
-        return shoppingCardMapper.toDto(shoppingCartRepository.save(shoppingCart));
+        return shoppingCartMapper.toDto(shoppingCartRepository.save(shoppingCart));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                         String.format("No cart item with id: %d for user: %d", cartItemId, userId)
                 ));
         cartItemRepository.save(cartItem);
-        return shoppingCardMapper.toDto(cart);
+        return shoppingCartMapper.toDto(cart);
     }
 
     @Override
