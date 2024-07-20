@@ -13,6 +13,4 @@ public interface OrderMapper {
     OrderDto toDto(Order order);
 
     Order toOrder(CreateOrderRequestDto createOrderRequestDto);
-
-    Order toModel(OrderDto orderDto);
 }

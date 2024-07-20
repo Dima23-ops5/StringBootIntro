@@ -16,9 +16,9 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
-@Entity
 @Getter
 @Setter
+@Entity
 @Table(name = "order_items")
 @SQLDelete(sql = "UPDATE order_items SET is_deleted = TRUE WHERE id = ?")
 @SQLRestriction(value = "is_deleted = FALSE")

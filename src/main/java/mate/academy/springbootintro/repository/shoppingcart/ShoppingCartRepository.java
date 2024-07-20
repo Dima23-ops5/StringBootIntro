@@ -1,6 +1,5 @@
 package mate.academy.springbootintro.repository.shoppingcart;
 
-import java.util.Optional;
 import mate.academy.springbootintro.model.ShoppingCart;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

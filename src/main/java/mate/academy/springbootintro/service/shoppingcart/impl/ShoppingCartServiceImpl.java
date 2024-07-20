@@ -30,7 +30,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Transactional
     public ShoppingCartDto findShoppingCardByUserId(Long id) {
         return shoppingCartMapper.toDto(
-                shoppingCartRepository.findByUserId(id);
+                shoppingCartRepository.findByUserId(id));
     }
 
     @Override
@@ -48,15 +48,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         );
         shoppingCart.getCartItems().stream()
                 .filter(cartItem -> cartItem.getBook().getId().equals(book.getId()))
-                .findFirst().ifPresentOrElse(cartItem -> cartItem.setQuantity(cartItem.getQuantity() + cartItemRequestDto.quantity()),
+                .findFirst().ifPresentOrElse(cartItem -> cartItem.setQuantity(cartItem.getQuantity()
+                                + cartItemRequestDto.quantity()),
                         () -> addCartItemToCart(cartItemRequestDto, book, shoppingCart));
         return shoppingCartMapper.toDto(shoppingCartRepository.save(shoppingCart));
-    }
-
-    private void addCartItemToCart(CreateCartItemRequestDto cartItemRequestDto, Book book, ShoppingCart shoppingCart) {
-        CartItem cartItem = cartItemMapper.toCartItem(cartItemRequestDto);
-        cartItem.setBook(book);
-        shoppingCart.addCartItem(cartItem);
     }
 
     @Override
@@ -91,5 +86,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 );
 
         cartItemRepository.delete(cartItem);
+    }
+
+    private void addCartItemToCart(CreateCartItemRequestDto cartItemRequestDto,
+                                   Book book, ShoppingCart shoppingCart) {
+        CartItem cartItem = cartItemMapper.toCartItem(cartItemRequestDto);
+        cartItem.setBook(book);
+        shoppingCart.addCartItem(cartItem);
     }
 }

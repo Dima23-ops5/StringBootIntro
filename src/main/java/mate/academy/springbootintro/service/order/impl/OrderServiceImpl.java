@@ -16,7 +16,6 @@ import mate.academy.springbootintro.mapper.OrderMapper;
 import mate.academy.springbootintro.model.Order;
 import mate.academy.springbootintro.model.OrderItem;
 import mate.academy.springbootintro.model.ShoppingCart;
-import mate.academy.springbootintro.repository.book.BookRepository;
 import mate.academy.springbootintro.repository.order.OrderRepository;
 import mate.academy.springbootintro.repository.orderitem.OrderItemRepository;
 import mate.academy.springbootintro.repository.shoppingcart.ShoppingCartRepository;
@@ -26,7 +25,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
-    private final BookRepository bookRepository;
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final OrderItemMapper orderItemMapper;
@@ -35,11 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto createOrder(CreateOrderRequestDto createOrderRequestDto, Long userId) {
-        ShoppingCart cart = shoppingCartRepository.findByUserId(userId).orElseThrow(
-                () -> new EntityNotFoundException(
-                        String.format("Cannot found shopping cart for user with id: ", userId)
-                )
-        );
+        ShoppingCart cart = shoppingCartRepository.findByUserId(userId);
         Order order = orderMapper.toOrder(createOrderRequestDto);
         Set<OrderItem> orderItems = cart.getCartItems().stream()
                 .map(cartItem -> orderItemMapper.toOrderItem(cartItem, order.getId()))
