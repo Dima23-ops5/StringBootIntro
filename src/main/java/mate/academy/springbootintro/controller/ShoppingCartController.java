@@ -37,7 +37,7 @@ public class ShoppingCartController {
             summary = "Get shopping cart",
             description = "Getting shopping cart for current user"
     )
-    public ShoppingCartDto getShoppingCard(Authentication authentication) {
+    public ShoppingCartDto getShoppingCart(Authentication authentication) {
         return shoppingCartService.findShoppingCardByUserId(getCurrentUserId(authentication));
     }
 
