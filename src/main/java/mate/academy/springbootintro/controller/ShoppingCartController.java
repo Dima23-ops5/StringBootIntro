@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/cart")
 @RequiredArgsConstructor
+@Validated
 @Tag(name = "Shopping cart management", description = "Endpoints for managing shopping carts")
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
@@ -84,7 +86,6 @@ public class ShoppingCartController {
     }
 
     private Long getCurrentUserId(Authentication authentication) {
-        authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         return user.getId();
     }
