@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - "${MYSQL_LOCAL_PORT}:${MYSQL_DOCKER_PORT}"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  bookshop-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: ./.env
+    image: bookstore-service
+    ports:
+      - "${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:${MYSQL_DOCKER_PORT}/${MYSQL_DATABASE}
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_ROOT_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    depends_on:
+      mysqldb:
+        condition: service_healthy
