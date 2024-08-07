@@ -1,6 +1,15 @@
-package mate.academy.springbootintro.serviceTests;
+package mate.academy.springbootintro.servicetests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.times;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import mate.academy.springbootintro.dto.category.CategoryDto;
+import mate.academy.springbootintro.dto.category.CreateCategoryRequestDto;
 import mate.academy.springbootintro.mapper.CategoryMapper;
 import mate.academy.springbootintro.model.Category;
 import mate.academy.springbootintro.repository.categoty.CategoryRepository;
@@ -12,11 +21,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 public class CategoryServiceTest {
@@ -75,7 +79,8 @@ public class CategoryServiceTest {
         Long categoryId = 10L;
 
         Mockito.when(categoryRepository.findById(categoryId))
-                .thenThrow(new NoSuchElementException("Cannot find category with id:" + categoryId ));
+                .thenThrow(new NoSuchElementException(
+                        "Cannot find category with id:" + categoryId));
 
         Exception exception = assertThrows(RuntimeException.class,
                 () -> categoryService.getById(categoryId));
@@ -89,15 +94,17 @@ public class CategoryServiceTest {
     @DisplayName("Verify saving category correct")
     public void saveCategory_Correct() {
         Category category = createCategoryForTests();
-        CategoryDto categoryDto = createCategoryDto(category);
+        CreateCategoryRequestDto requestDto = new CreateCategoryRequestDto(
+                "romantic", "romantic books");
+        CategoryDto excepted = new CategoryDto(1L, requestDto.name(), requestDto.description());
 
-        Mockito.when(categoryMapper.toDto(category)).thenReturn(categoryDto);
-        Mockito.when(categoryMapper.toModel(categoryDto)).thenReturn(category);
+        Mockito.when(categoryMapper.toDto(category)).thenReturn(excepted);
+        Mockito.when(categoryMapper.toModel(requestDto)).thenReturn(category);
         Mockito.when(categoryRepository.save(category)).thenReturn(category);
 
-        CategoryDto expected = categoryService.save(categoryDto);
-        assertNotNull(expected);
-        assertEquals(expected, categoryDto);
+        CategoryDto actual = categoryService.save(requestDto);
+        assertNotNull(actual);
+        assertEquals(actual, excepted);
         Mockito.verify(categoryRepository, times(1)).save(category);
     }
 
@@ -105,11 +112,13 @@ public class CategoryServiceTest {
     @DisplayName("Verify updating category with correct id")
     public void updateCategory_UpdateCategoryById_Correct() {
         Category category = createCategoryForTests();
-        CategoryDto categoryForUpdating = new CategoryDto(1L,"fantasy", "Fantastic books");
+        CategoryDto categoryDto = createCategoryDto(category);
+        CreateCategoryRequestDto categoryForUpdating = new CreateCategoryRequestDto(
+                "fantasy", "Fantastic books");
 
         Mockito.when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
         Mockito.doNothing().when(categoryMapper).updateCategory(categoryForUpdating, category);
-        Mockito.when(categoryMapper.toDto(category)).thenReturn(categoryForUpdating);
+        Mockito.when(categoryMapper.toDto(category)).thenReturn(categoryDto);
 
         CategoryDto excepted = categoryService.update(1L, categoryForUpdating);
 
@@ -122,11 +131,14 @@ public class CategoryServiceTest {
     public void updateCategory_UpdateCategoryWithNotExistedId_False() {
         Category category = createCategoryForTests();
         Long notValidId = 10L;
-        CategoryDto categoryForUpdating = new CategoryDto(notValidId,"fantasy", "Fantastic books");
+        CreateCategoryRequestDto categoryForUpdating = new CreateCategoryRequestDto(
+                "fantasy", "Fantastic books");
 
-        Mockito.when(categoryRepository.findById(notValidId)).thenThrow(new NoSuchElementException("Cannot found category with id: " + notValidId));
+        Mockito.when(categoryRepository.findById(notValidId)).thenThrow(
+                new NoSuchElementException("Cannot found category with id: " + notValidId));
 
-        Exception exception = assertThrows(RuntimeException.class, () -> categoryService.update(notValidId, categoryForUpdating));
+        Exception exception = assertThrows(RuntimeException.class,
+                () -> categoryService.update(notValidId, categoryForUpdating));
         String actual = exception.getMessage();
         String excepted = "Cannot found category with id: " + notValidId;
 

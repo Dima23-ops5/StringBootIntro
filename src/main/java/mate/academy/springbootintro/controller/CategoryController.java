@@ -8,6 +8,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.springbootintro.dto.bookdto.BookDtoWithoutCategoryIds;
 import mate.academy.springbootintro.dto.category.CategoryDto;
+import mate.academy.springbootintro.dto.category.CreateCategoryRequestDto;
 import mate.academy.springbootintro.service.book.BookService;
 import mate.academy.springbootintro.service.category.CategoryService;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
         name = "Categories management",
         description = "Endpoints for mapping categories"
 )
+@RequestMapping(value = "/categories")
 public class CategoryController {
     private final CategoryService categoryService;
     private final BookService bookService;
@@ -41,9 +44,9 @@ public class CategoryController {
             description = "Create a new category"
     )
     public CategoryDto createCategory(
-            @RequestBody @Valid CategoryDto categoryDto
+            @RequestBody @Valid CreateCategoryRequestDto requestDto
     ) {
-        return categoryService.save(categoryDto);
+        return categoryService.save(requestDto);
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -72,8 +75,8 @@ public class CategoryController {
             description = "Update has already existed category"
     )
     public CategoryDto updateCategory(@PathVariable @Positive Long id,
-                                      @RequestBody CategoryDto categoryDto) {
-        return categoryService.update(id, categoryDto);
+                                      @RequestBody CreateCategoryRequestDto requestDto) {
+        return categoryService.update(id, requestDto);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

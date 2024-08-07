@@ -2,6 +2,7 @@ package mate.academy.springbootintro.mapper;
 
 import mate.academy.springbootintro.config.MapperConfig;
 import mate.academy.springbootintro.dto.category.CategoryDto;
+import mate.academy.springbootintro.dto.category.CreateCategoryRequestDto;
 import mate.academy.springbootintro.model.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -10,7 +11,7 @@ import org.mapstruct.MappingTarget;
 public interface CategoryMapper {
     CategoryDto toDto(Category category);
 
-    Category toModel(CategoryDto categoryDto);
+    Category toModel(CreateCategoryRequestDto requestDtoDto);
 
-    void updateCategory(CategoryDto categoryDto, @MappingTarget Category category);
+    void updateCategory(CreateCategoryRequestDto requestDto, @MappingTarget Category category);
 }

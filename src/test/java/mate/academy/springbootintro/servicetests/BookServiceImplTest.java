@@ -1,5 +1,13 @@
-package mate.academy.springbootintro.serviceTests;
+package mate.academy.springbootintro.servicetests;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import mate.academy.springbootintro.dto.bookdto.BookDto;
 import mate.academy.springbootintro.dto.bookdto.BookSearchParametersDto;
 import mate.academy.springbootintro.dto.bookdto.CreateBookRequestDto;
@@ -20,11 +28,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class BookServiceImplTest {
@@ -76,7 +79,6 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Save book")
     public void saveBook_saveOneBook_Correct() {
-        Book book = createTestBook();
         BookDto bookDto = createBookDto();
 
         CreateBookRequestDto requestDto = new CreateBookRequestDto();
@@ -86,6 +88,7 @@ class BookServiceImplTest {
         requestDto.setTitle(bookDto.getTitle());
         requestDto.setDescription(bookDto.getDescription());
         requestDto.setCoverImage(bookDto.getCoverImage());
+        Book book = createTestBook();
 
         Mockito.when(bookMapper.toEntity(requestDto)).thenReturn(book);
         Mockito.when(bookMapper.toDto(book)).thenReturn(bookDto);
@@ -101,7 +104,8 @@ class BookServiceImplTest {
     public void getBook_GetBookById_False() {
         Book book = createTestBook();
         Long bookId = 100L;
-        Mockito.when(bookRepository.findById(bookId)).thenThrow(new NoSuchElementException("Cannot find book with id: " + bookId));
+        Mockito.when(bookRepository.findById(bookId)).thenThrow(
+                new NoSuchElementException("Cannot find book with id: " + bookId));
 
         Exception exception = assertThrows(RuntimeException.class,
                 () -> bookService.getBookById(bookId));
@@ -115,7 +119,6 @@ class BookServiceImplTest {
     @DisplayName("Update book by Id")
     public void updateBook_UpdateBookById_Correct() {
         Book book = createTestBook();
-        BookDto bookDto = createBookDto();
         CreateBookRequestDto createBookRequestDto = new CreateBookRequestDto();
         createBookRequestDto.setAuthor("Updated author");
         createBookRequestDto.setDescription("Updated description");
@@ -124,6 +127,7 @@ class BookServiceImplTest {
         createBookRequestDto.setIsbn("Updated isbn");
         createBookRequestDto.setCoverImage("Updated cover image");
 
+        BookDto bookDto = createBookDto();
         bookDto.setAuthor(createBookRequestDto.getAuthor());
         bookDto.setTitle(createBookRequestDto.getTitle());
         bookDto.setPrice(createBookRequestDto.getPrice());

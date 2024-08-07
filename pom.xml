@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -9,7 +10,7 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>spring</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>spring</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -22,8 +23,7 @@
 		<mysql.version>8.0.33</mysql.version>
 		<org.springdoc.version>2.1.0</org.springdoc.version>
 		<jjwt.version>0.11.5</jjwt.version>
-		<liquibase.version>4.22.0</liquibase.version>
-		<testcontainers.version>1.18.0</testcontainers.version>
+		<liqubase.version>4.22.0</liqubase.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -54,6 +54,7 @@
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -84,7 +85,7 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>${org.springdoc.version}</version>
+			<version>2.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.passay</groupId>
@@ -111,16 +112,32 @@
 			<artifactId>spring-boot-docker-compose</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<version>1.17.6</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>junit-jupiter</artifactId>
+			<version>1.17.6</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>mysql</artifactId>
+			<version>1.17.6</version>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -132,6 +149,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 	<build>
 		<plugins>
 			<plugin>
