@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-cart-items-table
+      id: create-shopping-cart-table
       author: Dmytro
       changes:
         - createTable:
-            tableName: cart_items
+            tableName: shopping_carts
             columns:
               - column:
                   name: id
@@ -14,22 +14,13 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: shopping_cart_id
+                  name: user_id
                   type: bigint
-                  constraints:
-                    nullable: false
-              - column:
-                  name: book_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-              - column:
-                  name: quantity
-                  type: int
                   constraints:
                     nullable: false
               - column:
                   name: is_deleted
-                  type: tinyint
+                  type: tinyint(1)
+                  defaultValueBoolean: false
                   constraints:
                     nullable: false

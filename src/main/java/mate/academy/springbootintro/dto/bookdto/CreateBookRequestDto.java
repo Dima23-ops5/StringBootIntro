@@ -1,7 +1,6 @@
 package mate.academy.springbootintro.dto.bookdto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,6 +20,5 @@ public class CreateBookRequestDto {
     private String description;
     @NotBlank(message = "Cover image can`t be null")
     private String coverImage;
-    @NotEmpty
     private List<Long> categoryIds;
 }
