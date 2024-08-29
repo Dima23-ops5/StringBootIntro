@@ -1,16 +1,16 @@
 package mate.academy.springbootintro.repository.book.filter;
 
 import java.util.List;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import mate.academy.springbootintro.model.Book;
 import mate.academy.springbootintro.repository.SpecificationProvider;
 import mate.academy.springbootintro.repository.SpecificationProviderManager;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BookSpecificationProviderManager implements SpecificationProviderManager<Book> {
-    private List<SpecificationProvider<Book>> specificationProviders;
+    private final List<SpecificationProvider<Book>> specificationProviders;
 
     @Override
     public SpecificationProvider<Book> getSpecificationProvider(String key) {

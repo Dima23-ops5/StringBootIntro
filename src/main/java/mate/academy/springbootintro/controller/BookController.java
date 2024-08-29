@@ -91,7 +91,7 @@ public class BookController {
                     sort = "title",
                     direction = Sort.Direction.ASC
             ) Pageable pageable) {
-        return bookService.search(searchParameters);
+        return bookService.search(searchParameters, pageable);
     }
 
     @AfterMapping

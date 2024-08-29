@@ -81,34 +81,34 @@ public class BookControllerTest {
     @Test
     @DisplayName("Get all books")
     public void getAll_FindAllBooks_Correct() throws Exception {
-        BookDto book1 = new BookDto();
-        book1.setId(1L);
-        book1.setTitle("Harry Potter");
-        book1.setAuthor("Joanne Rowling");
-        book1.setIsbn("12345");
-        book1.setPrice(BigDecimal.valueOf(50));
-        book1.setDescription("Book about boy...");
-        book1.setCoverImage("img.harry.potter");
+        BookDto bookHarryPotter = new BookDto();
+        bookHarryPotter.setId(1L);
+        bookHarryPotter.setTitle("Harry Potter");
+        bookHarryPotter.setAuthor("Joanne Rowling");
+        bookHarryPotter.setIsbn("12345");
+        bookHarryPotter.setPrice(BigDecimal.valueOf(50));
+        bookHarryPotter.setDescription("Book about boy...");
+        bookHarryPotter.setCoverImage("img.harry.potter");
 
-        BookDto book2 = new BookDto();
-        book2.setId(2L);
-        book2.setTitle("The little prince");
-        book2.setAuthor("Antoine de Saint-Exupery");
-        book2.setIsbn("4557839");
-        book2.setPrice(BigDecimal.valueOf(80));
-        book2.setDescription("Story about little prince");
-        book2.setCoverImage("img.little.prince");
+        BookDto bookLittlePrince = new BookDto();
+        bookLittlePrince.setId(2L);
+        bookLittlePrince.setTitle("The little prince");
+        bookLittlePrince.setAuthor("Antoine de Saint-Exupery");
+        bookLittlePrince.setIsbn("4557839");
+        bookLittlePrince.setPrice(BigDecimal.valueOf(80));
+        bookLittlePrince.setDescription("Story about little prince");
+        bookLittlePrince.setCoverImage("img.little.prince");
 
-        BookDto book3 = new BookDto();
-        book3.setId(3L);
-        book3.setTitle("The hobbit");
-        book3.setAuthor("J. R. R. Tolkien");
-        book3.setIsbn("93587");
-        book3.setPrice(BigDecimal.valueOf(40));
-        book3.setDescription("Book about hobbit Bilbo");
-        book3.setCoverImage("img.hobbit");
+        BookDto bookHobbit = new BookDto();
+        bookHobbit.setId(3L);
+        bookHobbit.setTitle("The hobbit");
+        bookHobbit.setAuthor("J. R. R. Tolkien");
+        bookHobbit.setIsbn("93587");
+        bookHobbit.setPrice(BigDecimal.valueOf(40));
+        bookHobbit.setDescription("Book about hobbit Bilbo");
+        bookHobbit.setCoverImage("img.hobbit");
 
-        List<BookDto> excepted = List.of(book1, book2, book3);
+        List<BookDto> excepted = List.of(bookHarryPotter, bookLittlePrince, bookHobbit);
 
         MvcResult result = mockMvc.perform(
                         get("/books")
@@ -272,7 +272,8 @@ public class BookControllerTest {
         excepted.setDescription("Book about boy...");
         excepted.setCoverImage("img.harry.potter");
 
-        MvcResult result = mockMvc.perform(get("/books/search").param("Author", "Joanne Rowling")
+        MvcResult result = mockMvc.perform(get(
+                "/books/search?title=Harry Potter&author=Joanne Rowling")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -282,12 +283,7 @@ public class BookControllerTest {
         BookDto actual = searchedBooks[0];
 
         assertNotNull(actual);
-        assertEquals(excepted.getId(), actual.getId());
-        assertEquals(excepted.getTitle(), actual.getTitle());
-        assertEquals(excepted.getAuthor(), actual.getAuthor());
-        assertEquals(excepted.getIsbn(), actual.getIsbn());
-        assertEquals(excepted.getPrice(), actual.getPrice());
-        assertEquals(excepted.getDescription(), actual.getDescription());
-        assertEquals(excepted.getCoverImage(), actual.getCoverImage());
+        assertEquals(excepted, actual);
     }
+
 }

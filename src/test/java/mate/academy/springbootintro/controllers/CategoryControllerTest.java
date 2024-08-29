@@ -225,7 +225,8 @@ public class CategoryControllerTest {
                 .readValue(result.getResponse().getContentAsString(),
                         BookDtoWithoutCategoryIds[].class)).toList();
 
-        assertEquals(1, actual.size());
-        assertEquals(actual, excepted);
+        assertNotNull(actual);
+        assertEquals(actual.size(), 1);
+        assertEquals(excepted, actual);
     }
 }

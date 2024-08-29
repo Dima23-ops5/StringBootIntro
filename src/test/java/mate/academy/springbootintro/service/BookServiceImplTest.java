@@ -3,6 +3,9 @@ package mate.academy.springbootintro.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,7 +24,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -31,6 +33,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 @ExtendWith(MockitoExtension.class)
 class BookServiceImplTest {
+    private static PageRequest pageRequest;
     @Mock
     private BookRepository bookRepository;
 
@@ -44,7 +47,6 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Find all books")
     public void findAll_ThreeBooks_Correct() {
-
         Book book = createTestBook();
 
         BookDto bookDto = createBookDto();
@@ -52,8 +54,8 @@ class BookServiceImplTest {
         Page<Book> page = new PageImpl<>(List.of(book));
         Pageable pageable = PageRequest.of(0, 10);
 
-        Mockito.when(bookMapper.toDto(book)).thenReturn(bookDto);
-        Mockito.when(bookRepository.findAll(pageable)).thenReturn(page);
+        when(bookMapper.toDto(book)).thenReturn(bookDto);
+        when(bookRepository.findAll(pageable)).thenReturn(page);
 
         List<BookDto> actual = bookService.findAll(pageable);
         List<BookDto> expected = List.of(bookDto);
@@ -67,8 +69,8 @@ class BookServiceImplTest {
         Book book = createTestBook();
         BookDto bookDto = createBookDto();
 
-        Mockito.when(bookMapper.toDto(book)).thenReturn(bookDto);
-        Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
+        when(bookMapper.toDto(book)).thenReturn(bookDto);
+        when(bookRepository.findById(1L)).thenReturn(Optional.of(book));
 
         BookDto actual = bookService.getBookById(1L);
 
@@ -90,9 +92,9 @@ class BookServiceImplTest {
         requestDto.setCoverImage(bookDto.getCoverImage());
         Book book = createTestBook();
 
-        Mockito.when(bookMapper.toEntity(requestDto)).thenReturn(book);
-        Mockito.when(bookMapper.toDto(book)).thenReturn(bookDto);
-        Mockito.when(bookRepository.save(book)).thenReturn(book);
+        when(bookMapper.toEntity(requestDto)).thenReturn(book);
+        when(bookMapper.toDto(book)).thenReturn(bookDto);
+        when(bookRepository.save(book)).thenReturn(book);
 
         BookDto actual = bookService.save(requestDto);
         assertNotNull(actual);
@@ -101,10 +103,10 @@ class BookServiceImplTest {
 
     @Test
     @DisplayName("Get book with id that doesn't exist")
-    public void getBook_GetBookById_False() {
+    public void getBook_GetBookByNotValidId_NotOk() {
         Book book = createTestBook();
         Long bookId = 100L;
-        Mockito.when(bookRepository.findById(bookId)).thenThrow(
+        when(bookRepository.findById(bookId)).thenThrow(
                 new NoSuchElementException("Cannot find book with id: " + bookId));
 
         Exception exception = assertThrows(RuntimeException.class,
@@ -118,7 +120,6 @@ class BookServiceImplTest {
     @Test
     @DisplayName("Update book")
     public void updateBook_UpdateBookWithExistedId_Correct() {
-
         CreateBookRequestDto requestDto = new CreateBookRequestDto();
         requestDto.setAuthor("Author");
         requestDto.setTitle("Title");
@@ -146,9 +147,9 @@ class BookServiceImplTest {
         expected.setCategoryIds(requestDto.getCategoryIds());
         Book book = createTestBook();
 
-        Mockito.when(bookRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(book));
-        Mockito.when(bookMapper.toDto(Mockito.any(Book.class))).thenReturn(expected);
-        Mockito.when(bookRepository.save(book)).thenReturn(bookUpdated);
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(book));
+        when(bookMapper.toDto(any(Book.class))).thenReturn(expected);
+        when(bookRepository.save(book)).thenReturn(bookUpdated);
 
         BookDto actual = bookService.updateBookById(1L, requestDto);
         assertNotNull(actual);
@@ -160,17 +161,18 @@ class BookServiceImplTest {
     public void searchBook_SearchBookBySearchingParam_Correct() {
         Book book = createTestBook();
         BookDto bookDto = createBookDto();
+        Page<Book> page = new PageImpl<>(List.of(book));
 
         BookSearchParametersDto parametersDto =
                 new BookSearchParametersDto(null, null,
                         null, null);
         Specification<Book> specification = (root, query, criteriaBuilder) -> null;
 
-        Mockito.when(bookSpecificationBuilder.built(parametersDto)).thenReturn(specification);
-        Mockito.when(bookRepository.findAll(specification)).thenReturn(List.of(book));
-        Mockito.when(bookMapper.toDto(book)).thenReturn(bookDto);
+        when(bookSpecificationBuilder.built(parametersDto)).thenReturn(specification);
+        when(bookRepository.findAll(specification, pageRequest)).thenReturn(page);
+        when(bookMapper.toDto(book)).thenReturn(bookDto);
 
-        List<BookDto> result = bookService.search(parametersDto);
+        List<BookDto> result = bookService.search(parametersDto, pageRequest);
         assertEquals(1, result.size());
         assertEquals(bookDto, result.get(0));
     }
