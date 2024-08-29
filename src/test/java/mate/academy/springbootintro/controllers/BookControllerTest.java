@@ -109,7 +109,6 @@ public class BookControllerTest {
         bookHobbit.setCoverImage("img.hobbit");
 
         List<BookDto> excepted = List.of(bookHarryPotter, bookLittlePrince, bookHobbit);
-
         MvcResult result = mockMvc.perform(
                         get("/books")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -271,7 +270,7 @@ public class BookControllerTest {
         excepted.setPrice(BigDecimal.valueOf(50));
         excepted.setDescription("Book about boy...");
         excepted.setCoverImage("img.harry.potter");
-
+        
         MvcResult result = mockMvc.perform(get(
                 "/books/search?title=Harry Potter&author=Joanne Rowling")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -285,5 +284,4 @@ public class BookControllerTest {
         assertNotNull(actual);
         assertEquals(excepted, actual);
     }
-
 }

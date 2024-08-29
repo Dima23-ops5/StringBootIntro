@@ -224,7 +224,7 @@ public class CategoryControllerTest {
         List<BookDtoWithoutCategoryIds> actual = Arrays.stream(objectMapper
                 .readValue(result.getResponse().getContentAsString(),
                         BookDtoWithoutCategoryIds[].class)).toList();
-
+        
         assertNotNull(actual);
         assertEquals(actual.size(), 1);
         assertEquals(excepted, actual);
