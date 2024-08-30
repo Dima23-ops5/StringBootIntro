@@ -36,7 +36,6 @@ class BookServiceImplTest {
     private static PageRequest pageRequest;
     @Mock
     private BookRepository bookRepository;
-
     @Mock
     private BookMapper bookMapper;
     @Mock
