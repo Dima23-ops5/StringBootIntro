@@ -224,14 +224,9 @@ public class CategoryControllerTest {
         List<BookDtoWithoutCategoryIds> actual = Arrays.stream(objectMapper
                 .readValue(result.getResponse().getContentAsString(),
                         BookDtoWithoutCategoryIds[].class)).toList();
-
-<<<<<<< HEAD
         assertNotNull(actual);
         assertEquals(actual.size(), 1);
         assertEquals(excepted, actual);
-=======
-        assertEquals(1, actual.size());
-        assertEquals(actual, excepted);
->>>>>>> 995096b (created tests for services,repositories and controllers)
+
     }
 }
