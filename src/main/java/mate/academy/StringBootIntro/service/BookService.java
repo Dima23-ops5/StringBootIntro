@@ -1,10 +1,19 @@
 package mate.academy.StringBootIntro.service;
 
-import mate.academy.StringBootIntro.model.Book;
-
 import java.util.List;
+import mate.academy.StringBootIntro.dto.BookDto;
+import mate.academy.StringBootIntro.dto.BookSearchParametersDto;
+import mate.academy.StringBootIntro.dto.CreateBookRequestDto;
 
 public interface BookService {
-    Book save(Book book);
-    List findAll();
+    List<BookDto> findAll();
+
+    BookDto getBookById(Long id);
+
+    BookDto save(CreateBookRequestDto bookDto);
+
+    BookDto updateBookById(Long id, CreateBookRequestDto createBookRequestDto);
+
+    void deleteBookById(Long id);
+    List<BookDto> search(BookSearchParametersDto searchParameters);
 }
