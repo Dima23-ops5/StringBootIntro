@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import mate.academy.springbootintro.dto.cartitem.CartItemDto;
 import mate.academy.springbootintro.dto.shoppingcartdto.ShoppingCartDto;
-import mate.academy.springbootintro.model.CartItem;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -13,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.test.web.servlet.MvcResult;
@@ -50,7 +47,7 @@ public class ShoppingCartControllerTest {
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(connection,
-                    new ClassPathResource("database/category/add-three-categories.sql"));
+                    new ClassPathResource("database/shoppingcart/add-information-for-shoppingcart-tests.sql"));
         }
     }
 
@@ -64,16 +61,16 @@ public class ShoppingCartControllerTest {
         try(Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(connection,
-                    new ClassPathResource("database/shoppingcart/remove-all-shoppingcarts.sql"));
+                    new ClassPathResource("database/shoppingcart/remove-all-information-for-tests.sql"));
         }
     }
 
     @WithMockUser(username = "user", roles = {"USER"})
     @Test
     @DisplayName("Get shopping cart for user")
-    @Sql(scripts = "classpath:/database/shoppingcart/add-shopping-cart-items.sql",
-    executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = "classpath:/database/shoppingcart/remove-all-from-cart-items.sql")
+   // @Sql(scripts = "classpath:/database/shoppingcart/add-shopping-cart-items.sql",
+   // executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+   // @Sql(scripts = "classpath:/database/shoppingcart/remove-all-from-cart-items.sql")
     public void getShoppingCartByCurrentUser_Ok() throws Exception {
         Long userId = 1L;
         ShoppingCartDto excepted = new ShoppingCartDto(1L, userId,

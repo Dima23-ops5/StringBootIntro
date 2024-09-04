@@ -39,7 +39,7 @@ public class ShoppingCartController {
             description = "Getting shopping cart for current user"
     )
     public ShoppingCartDto getShoppingCart(Authentication authentication) {
-        return shoppingCartService.findShoppingCardByUserId(getCurrentUserId(authentication));
+        return shoppingCartService.findShoppingCardByUserId(getCurrentUser(authentication).getId());
     }
 
     @PostMapping
@@ -54,7 +54,7 @@ public class ShoppingCartController {
     ) {
         return shoppingCartService.addCartItem(
                 cartItemRequestDto,
-                getCurrentUserId(authentication)
+                getCurrentUser(authentication).getId()
         );
     }
 
@@ -72,7 +72,7 @@ public class ShoppingCartController {
         return shoppingCartService.updateQuantityInCartItem(
                 cartItemId,
                 updateCartItemRequestDto,
-                getCurrentUserId(authentication)
+                getCurrentUser(authentication).getId()
         );
     }
 
@@ -81,11 +81,10 @@ public class ShoppingCartController {
     @PreAuthorize(value = "hasRole('USER')")
     @Operation(summary = "Delete item cart", description = "Deleting item carts in shopping cart")
     public void deleteItemCart(Long cartItemId, Authentication authentication) {
-        shoppingCartService.deleteCartItem(cartItemId, getCurrentUserId(authentication));
+        shoppingCartService.deleteCartItem(cartItemId, getCurrentUser(authentication).getId());
     }
 
-    private Long getCurrentUserId(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        return user.getId();
+    private User getCurrentUser(Authentication authentication) {
+        return (User) authentication.getPrincipal();
     }
 }

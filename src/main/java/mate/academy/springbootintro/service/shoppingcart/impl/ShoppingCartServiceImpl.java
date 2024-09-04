@@ -10,6 +10,7 @@ import mate.academy.springbootintro.mapper.ShoppingCartMapper;
 import mate.academy.springbootintro.model.Book;
 import mate.academy.springbootintro.model.CartItem;
 import mate.academy.springbootintro.model.ShoppingCart;
+import mate.academy.springbootintro.model.User;
 import mate.academy.springbootintro.repository.book.BookRepository;
 import mate.academy.springbootintro.repository.cartitem.CartItemRepository;
 import mate.academy.springbootintro.repository.shoppingcart.ShoppingCartRepository;
@@ -26,6 +27,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartMapper shoppingCartMapper;
     private final CartItemMapper cartItemMapper;
 
+    @Override
+    public ShoppingCartDto create(User user) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+        shoppingCartRepository.save(shoppingCart);
+        return shoppingCartMapper.toDto(shoppingCart);
+    }
     @Override
     @Transactional
     public ShoppingCartDto findShoppingCardByUserId(Long id) {
