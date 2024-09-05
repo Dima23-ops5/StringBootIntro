@@ -1,4 +1,4 @@
-package mate.academy.springbootintro.service.impl;
+package mate.academy.springbootintro.security;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
