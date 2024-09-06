@@ -113,7 +113,6 @@ public class ShoppingCartServiceTest {
         assertEquals(excepted.cartItemSet(), actual.cartItemSet());
     }
 
-
     private User createUser() {
         User user = new User();
         user.setId(1L);
@@ -125,6 +124,7 @@ public class ShoppingCartServiceTest {
 
         return user;
     }
+
     private ShoppingCart createDefaultShoppingCart(User user) {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setId(1L);

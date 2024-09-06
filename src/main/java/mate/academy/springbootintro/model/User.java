@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
@@ -28,6 +29,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET is_deleted = TRUE WHERE id = ?")
 @SQLRestriction(value = "is_deleted = FALSE")
+@NoArgsConstructor
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,13 +52,6 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
-
-    public User(User user) {
-    }
-
-    public User() {
-
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

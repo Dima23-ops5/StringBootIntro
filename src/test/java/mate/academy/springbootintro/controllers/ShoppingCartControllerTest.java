@@ -77,6 +77,7 @@ public class ShoppingCartControllerTest {
    // @Sql(scripts = "classpath:/database/shoppingcart/add-shopping-cart-items.sql",
    // executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
    // @Sql(scripts = "classpath:/database/shoppingcart/remove-all-from-cart-items.sql")
+    @WithUserDetails(userDetailsServiceBeanName = "alice@gmail.com")
     public void getShoppingCartByCurrentUser_Ok() throws Exception {
         Long userId = 1L;
         ShoppingCartDto excepted = new ShoppingCartDto(1L, userId,
@@ -100,6 +101,7 @@ public class ShoppingCartControllerTest {
     @DisplayName("Adding cart item to shopping cart")
     @Sql(scripts = "classpath:/database/shoppingcart/delete-added-cart-item.sql",
     executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @WithUserDetails(userDetailsServiceBeanName = "alice@gmail.com")
     public void addCartItemToShoppingCart_Ok() throws Exception {
         CreateCartItemRequestDto requestDto = new CreateCartItemRequestDto(2L, 10);
         ShoppingCartDto excepted = new ShoppingCartDto(1L, 1L,
@@ -125,6 +127,7 @@ public class ShoppingCartControllerTest {
     executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:/database/shoppingcart/delete-added-cart-item.sql",
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+    @WithUserDetails(userDetailsServiceBeanName = "alice@gmail.com")
     public void updateQuantityInCartItem() throws Exception {
         UpdateCartItemRequestDto requestDto = new UpdateCartItemRequestDto(17);
         ShoppingCartDto excepted = new ShoppingCartDto(1L, 1L,
@@ -149,6 +152,7 @@ public class ShoppingCartControllerTest {
     @DisplayName("Delete cart items by id")
     @Sql(scripts = "classpath:/database/shoppingcart/add-shopping-cart-items.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @WithUserDetails(userDetailsServiceBeanName = "alice@gmail.com")
     public void deleteCartItemsById_Ok() throws Exception {
         mockMvc.perform(delete("/items/2")
                         .contentType(MediaType.APPLICATION_JSON))
