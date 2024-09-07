@@ -1,17 +1,26 @@
 package mate.academy.springbootintro.service;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.when;
+
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Set;
 import mate.academy.springbootintro.dto.cartitem.CartItemDto;
 import mate.academy.springbootintro.dto.cartitem.CreateCartItemRequestDto;
-import mate.academy.springbootintro.dto.cartitem.UpdateCartItemRequestDto;
 import mate.academy.springbootintro.dto.shoppingcartdto.ShoppingCartDto;
-import mate.academy.springbootintro.mapper.CartItemMapper;
 import mate.academy.springbootintro.mapper.ShoppingCartMapper;
 import mate.academy.springbootintro.model.Book;
 import mate.academy.springbootintro.model.CartItem;
 import mate.academy.springbootintro.model.ShoppingCart;
 import mate.academy.springbootintro.model.User;
-import mate.academy.springbootintro.repository.book.BookRepository;
 import mate.academy.springbootintro.repository.shoppingcart.ShoppingCartRepository;
+import mate.academy.springbootintro.repository.user.UserRepository;
+import mate.academy.springbootintro.service.cartitem.CartItemService;
 import mate.academy.springbootintro.service.shoppingcart.impl.ShoppingCartServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,14 +29,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigDecimal;
-import java.util.*;
-
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 public class ShoppingCartServiceTest {
     @InjectMocks
@@ -35,18 +36,19 @@ public class ShoppingCartServiceTest {
     @Mock
     private ShoppingCartRepository shoppingCartRepository;
     @Mock
+    private CartItemService cartItemService;
+    @Mock
     private ShoppingCartMapper shoppingCartMapper;
     @Mock
-    private BookRepository bookRepository;
-    @Mock
-    private CartItemMapper cartItemMapper;
+    private UserRepository userRepository;
 
     @Test
     @DisplayName("Find shopping cart by user id")
     public void findShoppingCartByUserId_Ok() {
         User user = createUser();
         ShoppingCart shoppingCart = createDefaultShoppingCart(user);
-        ShoppingCartDto shoppingCartDto = new ShoppingCartDto(shoppingCart.getId(), shoppingCart.getUser().getId(),Set.of(new CartItemDto(1L, 2L, "Harry Potter", 10)));
+        ShoppingCartDto shoppingCartDto = new ShoppingCartDto(shoppingCart.getId(),
+                shoppingCart.getUser().getId(),Set.of(new CartItemDto(1L, 2L, "Harry Potter", 10)));
 
         when(shoppingCartRepository.findByUserId(user.getId())).thenReturn(shoppingCart);
         when(shoppingCartMapper.toDto(shoppingCart)).thenReturn(shoppingCartDto);
@@ -96,21 +98,15 @@ public class ShoppingCartServiceTest {
         cartItem.setId(2L);
         cartItem.setQuantity(requestDto.quantity());
 
-        ShoppingCartDto excepted = new ShoppingCartDto(shoppingCart.getId(),
-                shoppingCart.getUser().getId(), Set.of(new CartItemDto(cartItem.getId(),
-                cartItem.getBook().getId(), cartItem.getBook().getTitle(), cartItem.getQuantity())));
-
-        when(cartItemMapper.toCartItem(requestDto)).thenReturn(cartItem);
+        CartItemDto excepted = new CartItemDto(cartItem.getId(), cartItem.getBook().getId(),
+                cartItem.getBook().getTitle(), cartItem.getQuantity());
         when(shoppingCartRepository.findByUserId(user.getId())).thenReturn(shoppingCart);
-        when(bookRepository.findById(requestDto.bookId())).thenReturn(Optional.of(book));
-        when(shoppingCartRepository.save(shoppingCart)).thenReturn(shoppingCart);
-        when(shoppingCartMapper.toDto(shoppingCart)).thenReturn(excepted);
-
-        ShoppingCartDto actual = shoppingCartService.addCartItem(requestDto, user.getId());
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        when(cartItemService.save(requestDto, shoppingCart)).thenReturn(excepted);
+        CartItemDto actual = shoppingCartService.addCartItem(requestDto, user.getId());
 
         assertNotNull(actual);
         assertEquals(excepted, actual);
-        assertEquals(excepted.cartItemSet(), actual.cartItemSet());
     }
 
     private User createUser() {
@@ -129,7 +125,7 @@ public class ShoppingCartServiceTest {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setId(1L);
         shoppingCart.setUser(user);
-        shoppingCart.setCartItems(new HashSet<>());
+        shoppingCart.setCartItems(Set.of());
 
         return shoppingCart;
     }

@@ -1,5 +1,7 @@
 package mate.academy.springbootintro.repository;
 
+import static org.junit.Assert.assertNotNull;
+
 import mate.academy.springbootintro.model.ShoppingCart;
 import mate.academy.springbootintro.model.User;
 import mate.academy.springbootintro.repository.shoppingcart.ShoppingCartRepository;
@@ -9,8 +11,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 
-import static org.junit.Assert.assertNotNull;
-
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class ShoppingCartRepositoryTest {
@@ -19,9 +19,9 @@ public class ShoppingCartRepositoryTest {
 
     @Test
     @Sql(scripts = "classpath:/database/shoppingcart/add-shoppingcart.sql",
-    executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = "classpath:/database/shoppingcart/delete-shoppingcart.sql",
-    executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+            executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void getShoppingCartByUserId_Ok() {
         User user = new User();
         user.setId(1L);

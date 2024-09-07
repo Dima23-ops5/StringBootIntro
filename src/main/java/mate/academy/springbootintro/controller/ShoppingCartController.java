@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import mate.academy.springbootintro.dto.cartitem.CartItemDto;
 import mate.academy.springbootintro.dto.cartitem.CreateCartItemRequestDto;
 import mate.academy.springbootintro.dto.cartitem.UpdateCartItemRequestDto;
 import mate.academy.springbootintro.dto.shoppingcartdto.ShoppingCartDto;
@@ -48,7 +49,7 @@ public class ShoppingCartController {
             summary = "Add item carts to shopping cart",
             description = "Adding item carts to users shopping cart"
     )
-    public ShoppingCartDto addItemToCart(
+    public CartItemDto addItemToCart(
             @RequestBody @Valid CreateCartItemRequestDto cartItemRequestDto,
             Authentication authentication
     ) {
@@ -64,15 +65,14 @@ public class ShoppingCartController {
             summary = "Update quantity",
             description = "Updating products quantity in item carts"
     )
-    public ShoppingCartDto updateQuantity(
-            @PathVariable @Positive Long cartItemId,
+    public CartItemDto updateQuantity(
+            @PathVariable("cartItemId") @Positive Long cartItemId,
             @RequestBody @Valid UpdateCartItemRequestDto updateCartItemRequestDto,
             Authentication authentication
     ) {
         return shoppingCartService.updateQuantityInCartItem(
                 cartItemId,
-                updateCartItemRequestDto,
-                getCurrentUser(authentication).getId()
+                updateCartItemRequestDto
         );
     }
 
@@ -80,7 +80,8 @@ public class ShoppingCartController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize(value = "hasRole('USER')")
     @Operation(summary = "Delete item cart", description = "Deleting item carts in shopping cart")
-    public void deleteItemCart(Long cartItemId, Authentication authentication) {
+    public void deleteItemCart(@PathVariable("cartItemId") @Positive Long cartItemId,
+                               Authentication authentication) {
         shoppingCartService.deleteCartItem(cartItemId, getCurrentUser(authentication).getId());
     }
 
