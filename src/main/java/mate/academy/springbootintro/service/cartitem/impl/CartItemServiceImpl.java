@@ -48,9 +48,4 @@ public class CartItemServiceImpl implements CartItemService {
         cartItem.setQuantity(requestDto.quantity());
         return cartItemMapper.toDto(cartItemRepository.save(cartItem));
     }
-
-    @Override
-    public void deleteCartItem(Long id) {
-
-    }
 }

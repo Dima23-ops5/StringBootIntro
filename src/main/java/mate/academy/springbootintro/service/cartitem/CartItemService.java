@@ -9,6 +9,4 @@ public interface CartItemService {
     CartItemDto save(CreateCartItemRequestDto requestDto, ShoppingCart shoppingCart);
 
     CartItemDto updateCartItem(Long id, UpdateCartItemRequestDto requestDto);
-
-    void deleteCartItem(Long id);
 }
