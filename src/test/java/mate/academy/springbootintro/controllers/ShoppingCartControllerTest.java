@@ -2,6 +2,8 @@ package mate.academy.springbootintro.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -13,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Set;
 import javax.sql.DataSource;
 import lombok.SneakyThrows;
@@ -26,27 +29,28 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ShoppingCartControllerTest {
     @Autowired
     protected static MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private ShoppingCartService shoppingCartService;
     @Autowired
     private ObjectMapper objectMapper;
@@ -91,6 +95,7 @@ public class ShoppingCartControllerTest {
                 Set.of(new CartItemDto(1L, 3L, "Harry Potter", 10),
                         new CartItemDto(2L, 2L, "The Hobbit", 15)));
 
+        when(shoppingCartService.findShoppingCardByUserId(userId)).thenReturn(excepted);
         MvcResult result = mockMvc.perform(get("/cart")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -109,11 +114,17 @@ public class ShoppingCartControllerTest {
     @WithUserDetails("alice@gmail.com")
     public void addCartItemToShoppingCart_Ok() throws Exception {
         CreateCartItemRequestDto requestDto = new CreateCartItemRequestDto(3L, 10);
-        CartItemDto excepted = new CartItemDto(3L, requestDto.bookId(), "The Hobbit",
+        CartItemDto cartItemDto = new CartItemDto(3L, requestDto.bookId(), "The Hobbit",
                 requestDto.quantity());
+
+        Set<CartItemDto> cartItemDtos = new HashSet<>();
+        cartItemDtos.add(new CartItemDto(1L, 1L, "Harry Potter", 5));
+        cartItemDtos.add(new CartItemDto(3L, 3L, "The Hobbit", 15));
+        cartItemDtos.add(new CartItemDto(2L, 2L, "The little prince",10));
+        ShoppingCartDto excepted = new ShoppingCartDto(1L, 1L, cartItemDtos);
         String requestJson = objectMapper.writeValueAsString(requestDto);
 
-        when(shoppingCartService.addCartItem(requestDto, 1L)).thenReturn(excepted);
+        when(shoppingCartService.addCartItem(requestDto, excepted.id())).thenReturn(excepted);
 
         MvcResult result = mockMvc.perform(post("/cart")
                 .content(requestJson)
@@ -121,14 +132,13 @@ public class ShoppingCartControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        CartItemDto actual = objectMapper.readValue(result.getResponse().getContentAsString(),
-                CartItemDto.class);
+        ShoppingCartDto actual = objectMapper.readValue(result.getResponse().getContentAsString(),
+                ShoppingCartDto.class);
 
         assertNotNull(actual);
         assertEquals(excepted, actual);
     }
 
-    @WithMockUser(username = "user", roles = {"USER"})
     @Test
     @DisplayName("Update quantity in cart item")
     @Sql(scripts = "classpath:/database/shoppingcart/add-shopping-cart-items.sql",
@@ -138,17 +148,24 @@ public class ShoppingCartControllerTest {
     @WithUserDetails("alice@gmail.com")
     public void updateQuantityInCartItem() throws Exception {
         UpdateCartItemRequestDto requestDto = new UpdateCartItemRequestDto(17);
-        CartItemDto excepted = new CartItemDto(2L, 3L, "The Hobbit", requestDto.quantity());
+        CartItemDto cartItemDto = new CartItemDto(2L, 3L, "The Hobbit", requestDto.quantity());
+        Set<CartItemDto> cartItemDtos = new HashSet<>();
+        cartItemDtos.add(new CartItemDto(1L, 1L, "Harry Potter", 5));
+        cartItemDtos.add(new CartItemDto(2L, 3L, "The Hobbit", 15));
 
+        ShoppingCartDto excepted = new ShoppingCartDto(1L, 1L, cartItemDtos);
         String requestJson = objectMapper.writeValueAsString(requestDto);
+
+        when(shoppingCartService.updateQuantityInCartItem(anyLong(),
+                anyLong(), any())).thenReturn(excepted);
 
         MvcResult result = mockMvc.perform(put("/cart/items/2")
                 .content(requestJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
-        CartItemDto actual = objectMapper.readValue(result.getResponse().getContentAsString(),
-                CartItemDto.class);
+        ShoppingCartDto actual = objectMapper.readValue(result.getResponse().getContentAsString(),
+                ShoppingCartDto.class);
 
         assertNotNull(actual);
         assertEquals(excepted, actual);

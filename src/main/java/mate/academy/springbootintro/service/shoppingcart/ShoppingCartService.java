@@ -1,6 +1,5 @@
 package mate.academy.springbootintro.service.shoppingcart;
 
-import mate.academy.springbootintro.dto.cartitem.CartItemDto;
 import mate.academy.springbootintro.dto.cartitem.CreateCartItemRequestDto;
 import mate.academy.springbootintro.dto.cartitem.UpdateCartItemRequestDto;
 import mate.academy.springbootintro.dto.shoppingcartdto.ShoppingCartDto;
@@ -11,10 +10,11 @@ public interface ShoppingCartService {
 
     ShoppingCartDto findShoppingCardByUserId(Long id);
 
-    CartItemDto addCartItem(CreateCartItemRequestDto cartItemRequestDto,
+    ShoppingCartDto addCartItem(CreateCartItemRequestDto cartItemRequestDto,
                             Long currentUserId);
 
-    CartItemDto updateQuantityInCartItem(
+    ShoppingCartDto updateQuantityInCartItem(
+            Long currentUserId,
             Long cartItemId,
             UpdateCartItemRequestDto updateCartItemRequestDto);
 

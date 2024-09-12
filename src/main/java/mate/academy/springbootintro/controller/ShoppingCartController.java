@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
-import mate.academy.springbootintro.dto.cartitem.CartItemDto;
 import mate.academy.springbootintro.dto.cartitem.CreateCartItemRequestDto;
 import mate.academy.springbootintro.dto.cartitem.UpdateCartItemRequestDto;
 import mate.academy.springbootintro.dto.shoppingcartdto.ShoppingCartDto;
@@ -40,7 +39,7 @@ public class ShoppingCartController {
             description = "Getting shopping cart for current user"
     )
     public ShoppingCartDto getShoppingCart(Authentication authentication) {
-        return shoppingCartService.findShoppingCardByUserId(getCurrentUser(authentication).getId());
+        return shoppingCartService.findShoppingCardByUserId(getCurrentUserId(authentication));
     }
 
     @PostMapping
@@ -49,13 +48,13 @@ public class ShoppingCartController {
             summary = "Add item carts to shopping cart",
             description = "Adding item carts to users shopping cart"
     )
-    public CartItemDto addItemToCart(
+    public ShoppingCartDto addItemToCart(
             @RequestBody @Valid CreateCartItemRequestDto cartItemRequestDto,
             Authentication authentication
     ) {
         return shoppingCartService.addCartItem(
                 cartItemRequestDto,
-                getCurrentUser(authentication).getId()
+                getCurrentUserId(authentication)
         );
     }
 
@@ -65,12 +64,12 @@ public class ShoppingCartController {
             summary = "Update quantity",
             description = "Updating products quantity in item carts"
     )
-    public CartItemDto updateQuantity(
+    public ShoppingCartDto updateQuantity(
             @PathVariable("cartItemId") @Positive Long cartItemId,
             @RequestBody @Valid UpdateCartItemRequestDto updateCartItemRequestDto,
             Authentication authentication
     ) {
-        return shoppingCartService.updateQuantityInCartItem(
+        return shoppingCartService.updateQuantityInCartItem(getCurrentUserId(authentication),
                 cartItemId,
                 updateCartItemRequestDto
         );
@@ -82,10 +81,11 @@ public class ShoppingCartController {
     @Operation(summary = "Delete item cart", description = "Deleting item carts in shopping cart")
     public void deleteItemCart(@PathVariable("cartItemId") @Positive Long cartItemId,
                                Authentication authentication) {
-        shoppingCartService.deleteCartItem(cartItemId, getCurrentUser(authentication).getId());
+        shoppingCartService.deleteCartItem(cartItemId, getCurrentUserId(authentication));
     }
 
-    private User getCurrentUser(Authentication authentication) {
-        return (User) authentication.getPrincipal();
+    private Long getCurrentUserId(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return user.getId();
     }
 }
