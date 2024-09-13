@@ -3,7 +3,6 @@ package mate.academy.springbootintro.service;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -104,21 +103,31 @@ public class ShoppingCartServiceTest {
         CartItem cartItem = new CartItem();
         cartItem.setShoppingCart(shoppingCart);
         cartItem.setBook(book);
-        cartItem.setId(2L);
+        cartItem.setId(1L);
         cartItem.setQuantity(requestDto.quantity());
+
+        Set<CartItem> cartItems = new HashSet<>();
+        cartItems.add(cartItem);
+
+        ShoppingCart exceptedCart = new ShoppingCart();
+        exceptedCart.setId(shoppingCart.getId());
+        exceptedCart.setUser(shoppingCart.getUser());
+        exceptedCart.setCartItems(cartItems);
 
         CartItemDto cartItemDto = new CartItemDto(cartItem.getId(), cartItem.getBook().getId(),
                 cartItem.getBook().getTitle(), cartItem.getQuantity());
 
-        ShoppingCartDto excepted = new ShoppingCartDto(shoppingCart.getId(),
-                shoppingCart.getUser().getId(), Set.of(cartItemDto));
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-        when(shoppingCartRepository.findByUserId(user.getId())).thenReturn(shoppingCart);
-        when(bookRepository.findById(book.getId())).thenReturn(Optional.of(book));
-        when(cartItemMapper.toCartItem(requestDto)).thenReturn(cartItem);
-        when(cartItemRepository.save(cartItem)).thenReturn(cartItem);
-        when(shoppingCartRepository.save(shoppingCart)).thenReturn(shoppingCart);
+        Set<CartItemDto> cartItemDtos = new HashSet<>();
+        cartItemDtos.add(cartItemDto);
+
+        ShoppingCartDto excepted = new ShoppingCartDto(exceptedCart.getId(),
+                exceptedCart.getUser().getId(), cartItemDtos);
+
+        when(bookRepository.findById(anyLong())).thenReturn(Optional.of(book));
+        when(shoppingCartRepository.findByUserId(anyLong())).thenReturn(shoppingCart);
+        when(shoppingCartRepository.save(shoppingCart)).thenReturn(exceptedCart);
         when(shoppingCartMapper.toDto(shoppingCart)).thenReturn(excepted);
+        when(cartItemMapper.toCartItem(requestDto)).thenReturn(cartItem);
 
         ShoppingCartDto actual = shoppingCartService.addCartItem(requestDto, user.getId());
 
@@ -155,12 +164,11 @@ public class ShoppingCartServiceTest {
         ShoppingCartDto excepted = new ShoppingCartDto(shoppingCart.getId(),
                 shoppingCart.getUser().getId(), Set.of(cartItemDto));
 
-        when(cartItemRepository.updateQuantityByShoppingCartIdAndItemId(anyLong(),
-                anyLong(), anyInt())).thenReturn(exceptedCartItem);
+        when(cartItemRepository.findByIdAndShoppingCartId(anyLong(),
+                anyLong())).thenReturn(Optional.of(cartItem));
+        when(cartItemRepository.save(cartItem)).thenReturn(cartItem);
         when(shoppingCartMapper.toDto(shoppingCart)).thenReturn(excepted);
-        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(shoppingCartRepository.findByUserId(anyLong())).thenReturn(shoppingCart);
-        when(shoppingCartRepository.save(shoppingCart)).thenReturn(shoppingCart);
 
         ShoppingCartDto actual = shoppingCartService.updateQuantityInCartItem(user.getId(),
                 cartItem.getId(), requestDto);

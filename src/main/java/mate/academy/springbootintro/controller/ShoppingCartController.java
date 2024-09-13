@@ -65,7 +65,7 @@ public class ShoppingCartController {
             description = "Updating products quantity in item carts"
     )
     public ShoppingCartDto updateQuantity(
-            @PathVariable("cartItemId") @Positive Long cartItemId,
+            @PathVariable @Positive Long cartItemId,
             @RequestBody @Valid UpdateCartItemRequestDto updateCartItemRequestDto,
             Authentication authentication
     ) {
@@ -79,7 +79,7 @@ public class ShoppingCartController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize(value = "hasRole('USER')")
     @Operation(summary = "Delete item cart", description = "Deleting item carts in shopping cart")
-    public void deleteItemCart(@PathVariable("cartItemId") @Positive Long cartItemId,
+    public void deleteItemCart(@PathVariable @Positive Long cartItemId,
                                Authentication authentication) {
         shoppingCartService.deleteCartItem(cartItemId, getCurrentUserId(authentication));
     }

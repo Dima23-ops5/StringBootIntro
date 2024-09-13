@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponseDto register(UserRegistrationRequestDto request)
             throws RegistrationException {
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new RegistrationException(
                     "Can't register new user with email: "
                     + request.getEmail());

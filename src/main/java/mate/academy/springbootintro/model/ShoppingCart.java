@@ -40,8 +40,16 @@ public class ShoppingCart {
     @Column(nullable = false, name = "is_deleted", columnDefinition = "TINYINT(1)")
     private final boolean isDeleted = false;
 
-    public void addCartItemToCart(CartItem cartItem) {
+    public void addItemToCart(CartItem cartItem) {
         cartItem.setShoppingCart(this);
         cartItems.add(cartItem);
+    }
+
+    public Set<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(Set<CartItem> cartItems) {
+        this.cartItems = new HashSet<>(cartItems);
     }
 }
