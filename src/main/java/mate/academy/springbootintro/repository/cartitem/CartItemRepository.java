@@ -18,7 +18,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
                                                      @Param("cartItemId") Long cartItemId,
                                                      @Param("quantity") int quantity);
 
-    @Query(value = "SELECT c FROM cart_items c "
+    @Query(value = "SELECT * FROM cart_items c "
             + "WHERE c.id = :cartItemId AND c.shopping_cart_id = :shoppingCartId ",
             nativeQuery = true)
     Optional<CartItem> findByIdAndShoppingCartId(@Param("shoppingCartId") Long shoppingCartId,

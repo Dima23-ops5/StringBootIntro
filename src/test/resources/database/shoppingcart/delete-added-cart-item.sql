@@ -1,1 +1,1 @@
-DELETE FROM cart_items WHERE id = 2 AND book_id = 3
+DELETE FROM cart_items WHERE id = 2 AND id = 3
