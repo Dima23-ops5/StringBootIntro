@@ -34,9 +34,9 @@
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql.version}</version>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<version>8.0.33</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -125,6 +125,11 @@
 			<version>1.19.0</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>net.bytebuddy</groupId>
+			<artifactId>byte-buddy-agent</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
@@ -140,6 +145,7 @@
 	</dependencyManagement>
 
 	<build>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -147,7 +153,6 @@
 				<version>3.3.0</version>
 				<configuration>
 					<outputDirectory>${project.build.directory}</outputDirectory>
-					<finalName>${project.artifactId}</finalName>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -155,6 +160,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>3.3.0</version>
 				<configuration>
+					<jvmArguments>-XX:+EnableDynamicAgentLoading</jvmArguments>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
