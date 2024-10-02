@@ -12,9 +12,9 @@
 ---
 
 - [Introduction](#introduction)
-  - [What inspired me to create this project?](#what-inspired_me_to_create_this_project)
-  - [What problems does my project resolve?](#what_problems_does_my_project_resolve)
-  - [What can do roles USERS and ADMINISTRATORS?](#what_can_do_roles_users_and_administrators)
+  - [What inspired me to create this project?](#what-inspired-me-to-create-this-project)
+  - [What problems does my project resolve?](#what-problems-does-my-project-resolve)
+  - [What can do roles USERS and ADMINISTRATORS?](#what-can-do-roles-users-and-administrators)
     - [USERS](#role-user)
     - [ADMINISTRATORS](#role-administrator)
 - [Technologies and Tools Used](#technologies-and-tools-used)
@@ -29,7 +29,7 @@
 - [Getting started project](#getting-started-project)
 - [API Documentation](#api-documentation)
 - [Testing in Postman](#testing-in-postman)
-- [Challenges & Solutions](#challenges-&-solutions)
+- [Challenges & Solutions](#challanges--sollution)
 - [Contacts](#contacts)
 
 </div>
@@ -38,7 +38,7 @@
 
 <div>
 
-# <picture><img alt="Introduction" src="images/introduction.png" width="40" height="40" title="Introduction" style="vertical-align: middle"></picture> Introduction
+# <picture id = "introduction"><img alt="Introduction" src="images/introduction.png" width="40" height="40" title="Introduction" style="vertical-align: middle"></picture> Introduction
 
 ---
 
@@ -78,7 +78,7 @@ Moreover, it resolves common challenges such as the difficulty of managing large
 
 <div>
 
-# <picture><img alt="Technologies and Tools Used" src="images/technologies.png" width="40" height="40" title="Technologies and Tools Used" style="vertical-align: middle"></picture> Technologies and Tools used
+# <picture id="technologies-and-tools-used"><img alt="Technologies and Tools Used" src="images/technologies.png" width="40" height="40" title="Technologies and Tools Used" style="vertical-align: middle"></picture> Technologies and Tools used
 
 ---
 
@@ -121,11 +121,11 @@ Moreover, it resolves common challenges such as the difficulty of managing large
 
 <div>
 
-# <picture><img alt="Functionality of controllers" src="images/functionalityandcontrollers.png" width="40" height="40" title="Functionality of controllers" style="vertical-align: middle"></picture> Functionality of controllers
+# <picture id = "functionality-of-controllers"><img alt="Functionality of controllers" src="images/functionalityandcontrollers.png" width="40" height="40" title="Functionality of controllers" style="vertical-align: middle"></picture> Functionality of controllers
 
 ---
 
-## <picture><img alt="Authentication Management" src="images/authentication.png" width="40" height="40" title="Authentication Management" style="vertical-align: middle"></picture> Authentication Management
+## <picture id = "authentication-management"><img alt="Authentication Management" src="images/authentication.png" width="40" height="40" title="Authentication Management" style="vertical-align: middle"></picture> Authentication Management
 
 | HTTP Request| Endpoint          | Description            |
 |-------------|-------------------|------------------------|
@@ -133,7 +133,7 @@ Moreover, it resolves common challenges such as the difficulty of managing large
 | POST        | `/auth/login`     | Login an existing user |
 
 
-## <picture><img alt="Book Management" src="images/bookmanagement.png" width="40" height="40" title="Book Management" style="vertical-align: middle"></picture> Book Management
+## <picture id = "book-management"><img alt="Book Management" src="images/bookmanagement.png" width="40" height="40" title="Book Management" style="vertical-align: middle"></picture> Book Management
 
 
 | HTTP Request | Endpoint        | Description                             |
@@ -145,7 +145,7 @@ Moreover, it resolves common challenges such as the difficulty of managing large
 | DELETE       | `/books/{id}`   | Delete one book from database by its ID |
 | GET          | `/books/search` | Search book by specific criteria        |
 
-## <picture><img alt="Categories Management" src="images/categoriesmanagement.png" width="40" height="40" title="Categories Management" style="vertical-align: middle"></picture> Categories Management
+## <picture id = "categories-management"><img alt="Categories Management" src="images/categoriesmanagement.png" width="40" height="40" title="Categories Management" style="vertical-align: middle"></picture> Categories Management
 
 
 | HTTP Request | Endpoint                 | Description                                  |
@@ -157,7 +157,7 @@ Moreover, it resolves common challenges such as the difficulty of managing large
 | DELETE       | `/categories/{id}`       | Delete one category from database by its ID  |
 | GET          | `/categories/{id}/books` | Get list of book by categories by the its ID |
 
-## <picture><img alt="Order Management" src="images/ordermanagement.png" width="40" height="40" title="Order Management" style="vertical-align: middle"></picture> Order Management
+## <picture id = "order-management"><img alt="Order Management" src="images/ordermanagement.png" width="40" height="40" title="Order Management" style="vertical-align: middle"></picture> Order Management
 
 | HTTP Request | Endpoint                           | Description                                                  |
 |--------------|------------------------------------|--------------------------------------------------------------|
@@ -167,7 +167,7 @@ Moreover, it resolves common challenges such as the difficulty of managing large
 | GET          | `/orders/{orderId}/items`          | Get all order items by order ID                              |
 | GET          | `/orders/{orderId}/items/{itemId}` | Get information about the order item by order ID and item ID |
 
-## <picture><img alt="ShoppingCart Management" src="images/shoppingcartmanagement.png" width="40" height="40" title="ShoppingCart Management" style="vertical-align: middle"></picture> ShoppingCart Management
+## <picture id = "shoppingcart-management"><img alt="ShoppingCart Management" src="images/shoppingcartmanagement.png" width="40" height="40" title="ShoppingCart Management" style="vertical-align: middle"></picture> ShoppingCart Management
 
 |  HTTP Request | Endpoint                            | Description                                 |
 |---------------|-------------------------------------|---------------------------------------------|
@@ -182,7 +182,7 @@ Moreover, it resolves common challenges such as the difficulty of managing large
 
 <div>
 
-# <picture><img alt="Database structure" src="images/databasestructure.png" width="40" height="40" title="Database structure" style="vertical-align: middle"></picture> Database structure
+# <picture id = "database-structure"><img alt="Database structure" src="images/databasestructure.png" width="40" height="40" title="Database structure" style="vertical-align: middle"></picture> Database structure
 
 ---
 
@@ -193,7 +193,7 @@ Moreover, it resolves common challenges such as the difficulty of managing large
 ---
 <div>
 
-# <picture><img alt="Getting started project" src="images/startproject.png" width="40" height="40" title="Getting started project" style="vertical-align: middle"></picture> Getting started project
+# <picture id = "getting-started-project"><img alt="Getting started project" src="images/startproject.png" width="40" height="40" title="Getting started project" style="vertical-align: middle"></picture> Getting started project
 
 ---
 
@@ -257,7 +257,7 @@ You can view the instructional video via this link : https://www.loom.com/share/
 
 </div>
 
-# <picture><img alt="Challanges & Sollution" src="images/challenges.png" width="40" height="35" title="Challanges & Sollution" style="vertical-align: middle"></picture> *Challenges & Solutions*
+# <picture id = "challanges--sollution"><img alt="Challanges & Sollution" src="images/challenges.png" width="40" height="35" title="Challanges & Sollution" style="vertical-align: middle"></picture> *Challenges & Solutions*
 
 ---
 
