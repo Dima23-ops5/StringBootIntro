@@ -1,4 +1,3 @@
-
 services:
   mysqldb:
     platform: linux/arm64
