@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-users
+      author: Dmytro
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: email
+                  value: 'admin@gmail.com'
+              - column:
+                  name: password
+                  value: '$2a$10$D9E/8OzytNCZ.JXZLzXwVO5fpu/7J.8F/xLnpXBsnTnRa1KKYmyYO'
+              - column:
+                  name: first_name
+                  value: 'Admin'
+              - column:
+                  name: last_name
+                  value: 'Administrator'
+              - column:
+                  name: shipping_address
+                  value: 'Kreschatik street'
+              - column:
+                  name: is_deleted
+                  value: 0
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: email
+                  value: 'user@gmail.com'
+              - column:
+                  name: password
+                  value: '$2a$10$AaByxeXvhly3jcKz/BFlUuC7U/wLiXgkRfn/D9yVZUpC90wyTOuOq'
+              - column:
+                  name: first_name
+                  value: 'User'
+              - column:
+                  name: last_name
+                  value: 'JustUser'
+              - column:
+                  name: shipping_address
+                  value: 'Kreschyatyk street'
+              - column:
+                  name: is_deleted
+                  value: 0
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 8
+              - column:
+                  name: email
+                  value: 'Bob1@gmail.com'
+              - column:
+                  name: password
+                  value: '$2a$10$AaByxeXvhly3jcKz/BFlUuC7U/wLiXgkRfn/D9yVZUpC90wyTOuOq'
+              - column:
+                  name: first_name
+                  value: 'User'
+              - column:
+                  name: last_name
+                  value: 'JustUser'
+              - column:
+                  name: shipping_address
+                  value: 'Kreschyatyk street'
+              - column:
+                  name: is_deleted
+                  value: 0

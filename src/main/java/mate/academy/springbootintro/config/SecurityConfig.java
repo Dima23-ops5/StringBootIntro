@@ -1,7 +1,5 @@
 package mate.academy.springbootintro.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import lombok.RequiredArgsConstructor;
 import mate.academy.springbootintro.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @RequiredArgsConstructor
+@EnableWebSecurity
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -37,13 +38,19 @@ public class SecurityConfig {
                                 .requestMatchers("/swagger-ui/**",
                                         "/v3/api-docs/**",
                                         "/authentication/**",
-                                        "/errors"
+                                        "/errors",
+                                        "/index.html",
+                                        "/swagger-resources/**",
+                                        "/books/**",
+                                        "/cart/**",
+                                        "/categories/**",
+                                        "/orders/**"
                                 )
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
-                )
-                .httpBasic(withDefaults())
+                ).sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class

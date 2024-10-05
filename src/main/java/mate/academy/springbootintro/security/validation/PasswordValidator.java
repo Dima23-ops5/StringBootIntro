@@ -3,7 +3,6 @@ package mate.academy.springbootintro.security.validation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.Arrays;
-import mate.academy.springbootintro.dto.userdto.UserRegistrationRequestDto;
 import org.passay.CharacterRule;
 import org.passay.EnglishCharacterData;
 import org.passay.LengthRule;
@@ -12,10 +11,10 @@ import org.passay.RuleResult;
 import org.passay.WhitespaceRule;
 
 public class PasswordValidator
-        implements ConstraintValidator<Password, UserRegistrationRequestDto> {
+        implements ConstraintValidator<Password, String> {
     @Override
     public boolean isValid(
-            UserRegistrationRequestDto userRegistrationRequestDto,
+            String password,
             ConstraintValidatorContext constraintValidatorContext
     ) {
         org.passay.PasswordValidator validation = new org.passay.PasswordValidator(Arrays.asList(
@@ -26,9 +25,9 @@ public class PasswordValidator
                 new CharacterRule(EnglishCharacterData.Special, 1),
                 new WhitespaceRule()
 
-                ));
+        ));
         RuleResult result = validation.validate(
-                new PasswordData(userRegistrationRequestDto.getPassword())
+                new PasswordData(password)
         );
         return result.isValid();
     }
