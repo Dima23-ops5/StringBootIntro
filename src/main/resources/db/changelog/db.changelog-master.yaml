@@ -19,3 +19,9 @@ databaseChangeLog:
       file: classpath:/db/changelog/changes/09-create-order-items-table.yaml
   - include:
       file: classpath:/db/changelog/changes/10-create-order-table.yaml
+  - include:
+      file: classpath:/db/changelog/changes/11-insert-users.yaml
+  - include:
+      file: classpath:/db/changelog/changes/12-insert-roles.yaml
+  - include:
+      file: classpath:/db/changelog/changes/13-insert-user-and-roles.yaml

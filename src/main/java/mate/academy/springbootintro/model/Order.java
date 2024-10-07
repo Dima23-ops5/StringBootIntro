@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -28,6 +29,7 @@ import org.hibernate.annotations.SQLRestriction;
 @Table(name = "orders")
 @SQLDelete(sql = "UPDATE orders SET is_delete = TRUE WHERE id = ?")
 @SQLRestriction(value = "is_deleted = FALSE")
+@NoArgsConstructor
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

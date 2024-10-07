@@ -7,12 +7,12 @@ import mate.academy.springbootintro.security.validation.Password;
 import mate.academy.springbootintro.security.validation.RepeatPassword;
 
 @Data
+@RepeatPassword
 public class UserRegistrationRequestDto {
     @Email
     private String email;
     @Password
     private String password;
-    @RepeatPassword
     private String repeatPassword;
     @NotBlank(message = "First name can`t be null.")
     private String firstName;
