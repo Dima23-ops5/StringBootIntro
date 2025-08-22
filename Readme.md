@@ -1,8 +1,8 @@
 <h1 align="center" style="display: block; font-size: 1em; font-weight: bold; margin-block-start: 0.5em; margin-block-end: 1em;">
 <picture>
-<img src="images\preview.png" alt="BookWorld Logo">![Book-Store](./preview.png)
+<img src="images\preview.png" alt="BookWorld Logo">
 </picture>
-<br /><br /><strong>Online Book Store</strong>
+<br /><br /><strong>LitMarket</strong>
 </h1>
 
 <div>
@@ -285,3 +285,4 @@ For any questions or suggestions, feel free to reach out:
 - email: dmmhnk23@gmail.com
 
 </div>
+
